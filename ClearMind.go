@@ -79,7 +79,7 @@ func tugasPrioritas(A tabtugas){
 func MenuKesehatanMental(){
 	fmt.Printf("=== CEK KESEHATAN MENTAL ===\n")
 	fmt.Println("APA YANG BISA KAMI BANTU HARI INI?")
-	fmt.Println("[1] Cek Koin Mental dan Stress Meter")
+	fmt.Println("[1] Koin Mental dan Stress Meter")
 	fmt.Println("[2] Isi Jurnal Suasana Hati")
 	fmt.Println("[3] Lihat Stastistik Mingguan")
 	fmt.Println("[0] Kembali ke Menu Utama")
