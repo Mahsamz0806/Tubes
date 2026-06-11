@@ -53,7 +53,7 @@ func produktifitas(A tabtugas) {
 			MenuPrioritas()
 	case 3:
 
-	case 4:
+	case 0:
 			menuUtama()
 	}
 }
@@ -124,17 +124,17 @@ func MenuKesehatanMental(){
 	fmt.Println("[3] Lihat Stastistik Mingguan")
 	fmt.Println("[0] Kembali ke Menu Utama")
 	
-	var pilihan string
+	var pilihan int
 	fmt.Scan(&pilihan)
 	
 	switch pilihan {
-	case "1":
+	case 1:
 			fmt.Print("On Progress")
-	case "2":
+	case 2:
 			fmt.Print("On Progress")
-	case "3":
+	case 3:
 			fmt.Print("On Progress")
-	case "0":
+	case 0:
 			menuUtama()
 	}
 }
