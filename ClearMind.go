@@ -24,15 +24,15 @@ func menuUtama(A *tabtugas){
 	fmt.Println("[0] Keluar Progam")
 	fmt.Println("Pilih 1 atau 2: ")
 	
-	var pilihan string
+	var pilihan int
 	fmt.Scan(&pilihan)
 	
 	switch pilihan {
-	case "1":
-			fmt.Print("On Progress")
-	case "2":
+	case 1:
+			produktifitas()
+	case 2:
 			MenuKesehatanMental()
-	case "0":
+	case 0:
 			fmt.Print("Terima Kasih sudah menggunakan ClearMind. Semoga hari Anda menyenangkan.")
 	}
 }
@@ -41,19 +41,20 @@ func produktifitas(A tabtugas) {
 	var pilihan int
 	fmt.Println("===HALO SELAMAT DATANG DI PEMBANTU PRODUKTIFITAS===")
 	fmt.Println("APA YANG KAMI BISA BANTU HARI INI?")
-	fmt.Println("1. Input Tugas")
-	fmt.Println("2. Tugas Prioritas")
-	fmt.Println("3. Cari Tugas")
-	fmt.Println("0. Kembali")
+	fmt.Println("[1] Input Tugas")
+	fmt.Println("[2] Tugas Prioritas")
+	fmt.Println("[3] Cari Tugas")
+	fmt.Println("[0] Kembali")
 	fmt.Scan(&pilihan)
-	if pilihan == 1 {
+	switch pilihan {
+	case 1:
+			inputDataProduk()
+	case 2:
+			MenuPrioritas()
+	case 3:
 
-	} else if pilihan == 2 {
-
-	} else if pilihan == 3 {
-
-	}else if pilihan == 4{
-		func main
+	case 4:
+			menuUtama()
 	}
 }
 func inputDataProduk(A *tabtugas) {
@@ -77,6 +78,7 @@ func tugasPrioritas(A tabtugas){
 
 func MenuKesehatanMental(){
 	fmt.Printf("=== CEK KESEHATAN MENTAL ===\n")
+	fmt.Println("APA YANG BISA KAMI BANTU HARI INI?")
 	fmt.Println("[1] Cek Koin Mental dan Stress Meter")
 	fmt.Println("[2] Isi Jurnal Suasana Hati")
 	fmt.Println("[3] Lihat Stastistik Mingguan")
