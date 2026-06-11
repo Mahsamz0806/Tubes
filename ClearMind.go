@@ -29,15 +29,15 @@ func menuUtama(A *tabtugas){
 	
 	switch pilihan {
 	case 1:
-			produktifitas()
+			produktifitas(A)
 	case 2:
-			MenuKesehatanMental()
+			MenuKesehatanMental(A)
 	case 0:
 			fmt.Print("Terima Kasih sudah menggunakan ClearMind. Semoga hari Anda menyenangkan.")
 	}
 }
 
-func produktifitas(A tabtugas) {
+func produktifitas(A *tabtugas) {
 	var pilihan int
 	fmt.Println("===HALO SELAMAT DATANG DI PEMBANTU PRODUKTIFITAS===")
 	fmt.Println("APA YANG KAMI BISA BANTU HARI INI?")
@@ -48,13 +48,13 @@ func produktifitas(A tabtugas) {
 	fmt.Scan(&pilihan)
 	switch pilihan {
 	case 1:
-			inputDataProduk()
+			inputDataProduk(A)
 	case 2:
-			MenuPrioritas()
+			MenuPrioritas(A)
 	case 3:
-
+			fmt.Print("On Progress")
 	case 0:
-			menuUtama()
+			return
 	}
 }
 func inputDataProduk(A *tabtugas) {
@@ -80,39 +80,42 @@ func menuPrioritas(A *tabtugas){
 		case 2:
 			tugasPrioritasDescending(A)
 		case 0:
-			produktivitas(A)
+			return
 	}
 }
-func tugasPrioritasDescend(A tabtugas){
-	var pass, temp, j, indeks int
+func tugasPrioritasDescend(A *tabtugas){
+	var pass, j, indeks int
+	var temp Tugas
 	pass = 0
 	for pass < idx{
-		indeks = i
+		indeks = pass
 		j = pass +1
 		for j < idx{
 			if arr[j].prioritas>arr[indeks].prioritas{
 				indeks = j
 			}
 		}
-		temp = arr[pass]
-		arr[pass] = arr[indeks]
-		temp = arr[indeks]
+		temp = A[pass]
+		A[pass] = A[indeks]
+		A[indeks] = temp
 	}
 }
-func tugasPrioritasAscend(A tabtugas){
-	var pass, temp, j, indeks int
+func tugasPrioritasAscend(A *tabtugas){
+	var pass, j, indeks int
+	var temp Tugas
 	pass = 0
 	for pass < idx{
-		indeks = i
+		indeks = pass
 		j = pass +1
 		for j < idx{
 			if arr[j].prioritas<arr[indeks].prioritas{
 				indeks = j
 			}
 		}
-		temp = arr[pass]
-		arr[pass] = arr[indeks]
-		temp = arr[indeks]
+		temp = A[pass]
+		A[pass] = A[indeks]
+		A[indeks] = temp
+		pass++
 	}
 }
 
@@ -135,6 +138,6 @@ func MenuKesehatanMental(){
 	case 3:
 			fmt.Print("On Progress")
 	case 0:
-			menuUtama()
+			return
 	}
 }
