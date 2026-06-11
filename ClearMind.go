@@ -68,11 +68,51 @@ func inputDataProduk(A *tabtugas) {
 		idx ++
 	}
 }
-func tugasPrioritas(A tabtugas){
-	var i, temp, j int
-	i = 0
-	for i < idx{
-		j = 
+func menuPrioritas(A *tabtugas){
+	var pilih int
+	fmt.Println("==MENU PRIORITAS==")
+	fmt.Println("1.Ascending")
+	fmt.Println("2.Descending")
+	fmt.Println("0.Kembali")
+    switch pilih{
+		case 1:
+			tugasPrioritasAscending(A)
+		case 2:
+			tugasPrioritasDescending(A)
+		case 0:
+			produktivitas(A)
+	}
+}
+func tugasPrioritasDescend(A tabtugas){
+	var pass, temp, j, indeks int
+	pass = 0
+	for pass < idx{
+		indeks = i
+		j = pass +1
+		for j < idx{
+			if arr[j].prioritas>arr[indeks].prioritas{
+				indeks = j
+			}
+		}
+		temp = arr[pass]
+		arr[pass] = arr[indeks]
+		temp = arr[indeks]
+	}
+}
+func tugasPrioritasAscend(A tabtugas){
+	var pass, temp, j, indeks int
+	pass = 0
+	for pass < idx{
+		indeks = i
+		j = pass +1
+		for j < idx{
+			if arr[j].prioritas<arr[indeks].prioritas{
+				indeks = j
+			}
+		}
+		temp = arr[pass]
+		arr[pass] = arr[indeks]
+		temp = arr[indeks]
 	}
 }
 
