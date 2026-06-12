@@ -12,8 +12,8 @@ type Mental struct{
 	tanggal int
 	skorEmosi int
 	catatanEmosi string
-	sisaKoin int
-	stressMeter int
+	sisaKoin int //Untuk menyimpan data dari Array Tugas
+	stressMeter int //Untuk menimpan data dari Array Tugas
 }
 type tabmental [NMAX]JurnalMental
 
@@ -80,7 +80,7 @@ func produktifitas(A *tabtugas) {
 }
 func inputDataTugas(A *tabtugas) {
 	var n int
-	fmt.Println("==INPUT DATA PRODUKTIVITAS==")
+	fmt.Println("[ INPUT DATA PRODUKTIVITAS ]")
 	fmt.Println("BERAPA BANYAK DATA YANG INGIN ANDA INPUT")
 	fmt.Scan(&n)
 	fmt.Println("INPUT DATA ANDA SECARA BERURUTAN (NAMA, PRIORITAS, DEADLINE)")
@@ -163,6 +163,35 @@ func MenuKesehatanMental(){
 			return
 	}
 
-	func hitungLimitMental(A *tabtugas)
+	func hitungLimitMental(A *tabtugas, B *tabmental, tglAktif int){
+		fmt.Println("[ CEK KOIN MENTAL DAN STRESS METER ]")
+
+		bebanTotal := 0
+		jumlahTugasYngAda := 0
+
+		//Pembacaan/Perhitungan tugas dan koin mental
+
+		for i := 0; i < idxTugas; i++ {
+			if A[i].tanggal == tglAktif {
+				jumlahTugasYngAda++
+				bebanTambahan := A[i].durasi / 10
+				if A[i].prioritas >= 4 {
+					bebanTambahan += 5
+				}
+				bebanTotal += bebanTambahan
+			}
+		}
+		sisaKoin := BatasKoin - bebanTotal
+		stressMeter := 0
+
+		if sisaKoin < 0 {
+			stressMeter = (sisaKoin * -1) / 5
+			sisaKoin = 0
+			if stressMeter > BatasStress {
+				stressMeter = LimitStress
+			}
+		}
+		
+	}
 
 }
