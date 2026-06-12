@@ -6,7 +6,7 @@ var idx, pilihan int
 
 const NMAX int = 1000
 const BatasKoinMental int = 30
-const BatasStress int = 10 //Masih sementara segini
+const BatasStress int = 10 //Untuk sementara segini
 
 type Mental struct{
 	tanggal int
@@ -29,13 +29,14 @@ func main() {
 	var A tabtugas
 	var B tabmental
 	var tglAktif int
-	fmt.Scan(&tgl)
+	setTanggalSesi(&tanggalAktif)
 	menuUtama(&A, &B)
 }
 
 func setTanggalSesi(tanggal *int) {//Tanggal untuk kedua menu, pada Produktivitas dan Mental
 	fmt.Println("Masukkan Tanggal Sesi Ini (Format: DDMMYYYY, cth: 12062026): ")
 	fmt.Scan(&tanggal)
+	fmt.Printf("Program")
 }
 
 func menuUtama(A *tabtugas, B *tabJurnal, tglAktif *int){
@@ -144,7 +145,7 @@ func tugasPrioritasAscend(A *tabtugas){
 func MenuKesehatanMental(){
 	fmt.Printf("=== CEK KESEHATAN MENTAL ===\n")
 	fmt.Println("APA YANG BISA KAMI BANTU HARI INI?")
-	fmt.Println("[1] Koin Mental dan Stress Meter")
+	fmt.Println("[1] Kalkulasi Koin Mental dan Stress Meter")
 	fmt.Println("[2] Isi Jurnal Suasana Hati")
 	fmt.Println("[3] Lihat Stastistik Mingguan")
 	fmt.Println("[0] Kembali ke Menu Utama")
@@ -153,7 +154,7 @@ func MenuKesehatanMental(){
 	
 	switch pilihan {
 	case 1:
-			fmt.Print("On Progress")
+			hitungLimitMental(A)
 	case 2:
 			fmt.Print("On Progress")
 	case 3:
@@ -161,4 +162,7 @@ func MenuKesehatanMental(){
 	case 0:
 			return
 	}
+
+	func hitungLimitMental(A *tabtugas)
+
 }
