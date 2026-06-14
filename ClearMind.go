@@ -23,7 +23,7 @@ type Tugas struct {
 	deadline  int//Format 24 jam
 }
 type tabtugas [NMAX]Tugas
-
+//=================================================================
 func main() {
 	var A tabtugas
 	var B tabmental
@@ -43,18 +43,23 @@ func menuUtama(A *tabtugas, B *tabJurnal, tglAktif *int){
 	fmt.Print("[Tanggal Aktif Saat Ini: %d]\n", *tglAktif)//Untuk tanggal yang aktif pada kedua menu
 	fmt.Println("[1] Menu Produktivitas")//Untuk masuk ke menu Produktivitas
 	fmt.Println("[2] Menu Kesehatan Mental")//Untuk masuk ke menu Kesehatan Mental
+	fmt.Println("[3] Ubah Tanggal")
 	fmt.Println("[0] Keluar Progam")
 	fmt.Println("Pilih: ")
 	fmt.Scan(&pilihan)
-	
 	switch pilihan {
 	case 1:
-			produktifitas(A, B, )
+			produktifitas(A, B, tglAktif)
 	case 2:
-			MenuKesehatanMental(A, B)
+			MenuKesehatanMental(A, B, tglAktif)
+	case 3:
+			tanggalAktif(tglAktif)
 	case 0:
 			fmt.Print("Terima Kasih sudah menggunakan ClearMind. Semoga hari Anda menyenangkan.")
+	default:
+			fmt.Println("Pilihan tidak valid")
 	}
+	menuUtama(A, B, tglAktif)
 }
 
 func produktifitas(A *tabtugas) {
@@ -164,12 +169,10 @@ func MenuKesehatanMental(){
 
 	func hitungLimitMental(A *tabtugas, B *tabmental, tglAktif int){
 		fmt.Println("[ CEK KOIN MENTAL DAN STRESS METER ]")
-
 		bebanTotal := 0
 		jumlahTugasYngAda := 0
 
 		//Pembacaan/Perhitungan tugas dan koin mental
-
 		for i := 0; i < idxTugas; i++ {
 			if A[i].tanggal == tglAktif {
 				jumlahTugasYngAda++
@@ -204,8 +207,10 @@ func MenuKesehatanMental(){
 			B[idxJurnal].stressMeter = stressMeter
 			idxJurnal++
 		}
-		fmt.Printf("Total Tugas Hari Ini : %d Tugas\n", JumlahTugasYngAda)
-		fmt.Printf("Jumlah")
+		fmt.Printf("Total Tugas Hari Ini      : %d Tugas\n", JumlahTugasYngAda)
+		fmt.Printf("Koin Mental yang Terpakai : %d\n", bebanTotal)
+		fmt.Printf("Sisa Koin Mental          : %d / %d\n", sisaKoin, BatasKoinHarian)
+		fmt.Printf("Stress Meter              : %d / %d\n", stressMeter, BatasStress)
 	}
 
 }
