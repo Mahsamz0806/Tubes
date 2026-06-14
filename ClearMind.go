@@ -2,26 +2,25 @@ package main
 import "fmt"
 
 //Variabel global untuk diapaki semua function dan procedure
-var idx, pilihan int
-
+var pilihan, idxTugas, idxJurnal int
 const NMAX int = 1000
 const BatasKoinMental int = 30
-const BatasStress int = 10 //Untuk sementara segini
+const BatasStress int = 10//Untuk sementara segini
 
 type Mental struct{
-	tanggal int
+	tanggal int//Format DDMMYYYY
 	skorEmosi int
 	catatanEmosi string
-	sisaKoin int //Untuk menyimpan data dari Array Tugas
-	stressMeter int //Untuk menimpan data dari Array Tugas
+	sisaKoin int//Untuk menyimpan data dari Array Tugas
+	stressMeter int//Untuk menimpan data dari Array Tugas
 }
 type tabmental [NMAX]JurnalMental
 
 type Tugas struct {
-	tanggal int
+	tanggal int//Format DDMMYYYY
 	namaTugas string
-	prioritas int
-	deadline  int
+	prioritas int//Skala 1 sampai 5
+	deadline  int//Format 24 jam
 }
 type tabtugas [NMAX]Tugas
 
@@ -30,27 +29,27 @@ func main() {
 	var B tabmental
 	var tglAktif int
 	setTanggalSesi(&tanggalAktif)
-	menuUtama(&A, &B)
+	menuUtama(&A, &B, &tanggalAktif)
 }
 
-func setTanggalSesi(tanggal *int) {//Tanggal untuk kedua menu, pada Produktivitas dan Mental
+func tanggalAktif(tanggal *int) {//Tanggal untuk kedua menu, pada Produktivitas dan Mental
 	fmt.Println("Masukkan Tanggal Sesi Ini (Format: DDMMYYYY, cth: 12062026): ")
 	fmt.Scan(&tanggal)
-	fmt.Printf("Program")
+	fmt.Printf("Program beroperasi pada tanggal: %d\n", *tanggal)
 }
 
 func menuUtama(A *tabtugas, B *tabJurnal, tglAktif *int){
 	fmt.Printf("===== ClearMind =====\n")
 	fmt.Print("[Tanggal Aktif Saat Ini: %d]\n", *tglAktif)//Untuk tanggal yang aktif pada kedua menu
-	fmt.Println("[1] Menu Produktivitas")
-	fmt.Println("[2] Menu Kesehatan Mental")
+	fmt.Println("[1] Menu Produktivitas")//Untuk masuk ke menu Produktivitas
+	fmt.Println("[2] Menu Kesehatan Mental")//Untuk masuk ke menu Kesehatan Mental
 	fmt.Println("[0] Keluar Progam")
 	fmt.Println("Pilih: ")
 	fmt.Scan(&pilihan)
 	
 	switch pilihan {
 	case 1:
-			produktifitas(A)
+			produktifitas(A, B, )
 	case 2:
 			MenuKesehatanMental(A, B)
 	case 0:
@@ -191,7 +190,22 @@ func MenuKesehatanMental(){
 				stressMeter = LimitStress
 			}
 		}
-		
+		jurnalDitemukan := false
+		for i := 0; i < idxJurnal; i++ {
+			if B[i].tanggal == tglAktif {
+				B[i].sisaKoin = sisaKoin
+				B[i].stressMeter = stressMeter
+				jurnalDitemukan = true
+			}
+		}
+		if !jurnalDitemukan && idxJurnal < NMAX {
+			B[idxJurnal].tanggal = tglAktif
+			B[idxJurnal].sisaKoin = sisaKoin
+			B[idxJurnal].stressMeter = stressMeter
+			idxJurnal++
+		}
+		fmt.Printf("Total Tugas Hari Ini : %d Tugas\n", JumlahTugasYngAda)
+		fmt.Printf("Jumlah")
 	}
 
 }
