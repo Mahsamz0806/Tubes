@@ -61,91 +61,195 @@ func menuUtama(A *tabtugas, B *tabJurnal, tglAktif *int){
 	}
 	menuUtama(A, B, tglAktif)
 }
-
-func produktifitas(A *tabtugas) {
-	fmt.Println("===HALO SELAMAT DATANG DI PEMBANTU PRODUKTIVITAS===")
+func produktifitas(A *tabtugas, tglAktif *int) {
+	var pilih int
+	fmt.Println("===HALO SELAMAT DATANG DI PEMBANTU PRODUKTIFITAS===")
 	fmt.Println("APA YANG KAMI BISA BANTU HARI INI?")
-	fmt.Println("[1] Input Tugas")
-	fmt.Println("[2] Tugas Prioritas")
-	fmt.Println("[3] Cari Tugas")
-	fmt.Println("[0] Kembali")
-	fmt.Println("Pilih: ")
-	fmt.Scan(&pilihan)
-	switch pilihan {
+	fmt.Println("1. Input Tugas")
+	fmt.Println("2. Tampilkan Tugas")
+	fmt.Println("3. Tugas Prioritas")
+	fmt.Println("4. Cari Tugas")
+	fmt.Println("5. Ubah Tugas")
+	fmt.Println("6. Kembali")
+	fmt.Scan(&pilih)
+	switch pilih {
 	case 1:
-			inputDataTugas(A)
+		inputDataProduk(A, *tglAktif)
 	case 2:
-			MenuPrioritas(A)
+		tampilkanTugas(A, *tglAktif)
 	case 3:
-			fmt.Print("On Progress")
-	case 0:
-			return
+		menuPrioritas(A)
+	case 4:
+		MenucariTugas(A)
+	case 5:
+		ubahTugas(A, *tglAktif)
+	case 6:
+		menuUtama(A)
 	}
 }
-func inputDataTugas(A *tabtugas) {
-	var n int
-	fmt.Println("[ INPUT DATA PRODUKTIVITAS ]")
+func inputDataProduk(A *tabtugas, tglAktif int) {
+	var n, batas int
+	fmt.Println("==INPUT DATA PRODUKTIFITAS==")
 	fmt.Println("BERAPA BANYAK DATA YANG INGIN ANDA INPUT")
 	fmt.Scan(&n)
+	batas = idxTugas + n
 	fmt.Println("INPUT DATA ANDA SECARA BERURUTAN (NAMA, PRIORITAS, DEADLINE)")
-	for idx < n+idx {
-		A[idx].tanggal = tanggalBatch
-		
-		fmt.Scan(&A[idx].namaTugas, &A[idx].prioritas, &A[idx].deadline)
-		idx ++
+	for idxTugas < batas {
+		A[idxTugas].tanggal = tglAktif
+		fmt.Scan(&A[idxTugas].namaTugas, &A[idxTugas].prioritas, &A[idxTugas].deadline)
+		idxTugas++
 	}
 }
-func menuPrioritas(A *tabtugas){
-	fmt.Println("==MENU PRIORITAS==")
-	fmt.Println("[1] Ascending")
-	fmt.Println("[2] Descending")
-	fmt.Println("[0] Kembali")
-	fmt.Scan(&pilihan)
-    switch pilihan{
-		case 1:
-			tugasPrioritasAscending(A)
-		case 2:
-			tugasPrioritasDescending(A)
-		case 0:
-			return
-	}
-}
-func tugasPrioritasDescend(A *tabtugas){
-	var pass, j, indeks int
-	var temp Tugas
-	pass = 0
-	for pass < idx{
-		indeks = pass
-		j = pass +1
-		for j < idx{
-			if A[j].prioritas>A[indeks].prioritas{
-				indeks = j
+func tampilkanTugas(A *tabtugas, tglAktif int) {
+	var i int
+	fmt.Println("\n==DAFTAR TUGAS==")
+	if idxTugas == 0 {
+		fmt.Println("Belum Ada Tugas")
+	} else {
+		fmt.Printf("%-5s %-20s %-10s %-10s", "No", "Nama", "Prioritas", "Deadline")
+		for i = 0; i < idxTugas; i++ {
+			if A[i].tanggal == tglAktif {
+				fmt.Printf("%-5d %-20s %-10d %-10d\n",
+					i+1,
+					A[i].namaTugas,
+					A[i].prioritas,
+					A[i].deadline,
+				)
 			}
 		}
-		temp = A[pass]
-		A[pass] = A[indeks]
-		A[indeks] = temp
-	}
-}
-func tugasPrioritasAscend(A *tabtugas){
-	var pass, j, indeks int
-	var temp Tugas
-	pass = 0
-	for pass < idx{
-		indeks = pass
-		j = pass +1
-		for j < idx{
-			if A[j].prioritas<A[indeks].prioritas{
-				indeks = j
-			}
-		}
-		temp = A[pass]
-		A[pass] = A[indeks]
-		A[indeks] = temp
-		pass++
 	}
 }
 
+func MenucariTugas(A *tabtugas, tglAktif int) {
+	var pilih int
+	fmt.Println("\n==Cari Tugas==")
+	fmt.Println("1. Berdasarkan Nama")
+	fmt.Println("2. Berdasarkan Prioritas")
+	fmt.Println("3. Kembali")
+	fmt.Println("Pilih: ")
+	fmt.Scan(&pilih)
+	switch pilih {
+	case 1:
+		cariSequential(A)
+	case 2:
+		cariBinary(A)
+	case 3:
+		menuPrioritas(A)
+
+	}
+}
+
+func cariSequential(A *tabtugas, tglAktif int) {
+	var nama string
+	var found bool
+	var i int
+	fmt.Println("Nama Tugas: ")
+	fmt.Scan(&nama)
+	i = 0
+	found = false
+	for i < idxTugas && found == false {
+		if A[i].namaTugas == nama {
+			fmt.Printf("%s| %d | %d \n", A[i].namaTugas, A[i].prioritas, A[i].deadline)
+			found = true
+		}
+		i = i + 1
+	}
+}
+
+func cariBinary(A *tabtugas, tglAktif int) {
+	var target, low, high, mid, hasil int
+	fmt.Println("Prioritas: ")
+	fmt.Scan(&target)
+	low = 0
+	high = idxTugas - 1
+	hasil = -1
+	for low <= high && hasil == -1 {
+		mid = (low + high) / 2
+		if A[mid].prioritas == target {
+			hasil = mid
+			low = high + 1
+		} else if A[mid].prioritas < target {
+			low = mid + 1
+		} else {
+			high = mid - 1
+		}
+	}
+	if hasil == -1 {
+		fmt.Println("Tidak Ditemukan")
+	} else {
+		fmt.Printf("%s|%d|%d\n", A[hasil].namaTugas, A[hasil].prioritas, A[hasil].deadline)
+	}
+
+}
+func menuPrioritas(A *tabtugas, tglAktif int) {
+	var pilih int
+	fmt.Println("==MENU PRIORITAS==")
+	fmt.Println("1.Ascending")
+	fmt.Println("2.Descending")
+	fmt.Println("3.Kembali")
+	fmt.Println("Pilih: ")
+	fmt.Scan(&pilih)
+	switch pilih {
+	case 1:
+		tugasPrioritasAscend(A)
+	case 2:
+		tugasPrioritasDescend(A)
+	case 3:
+		produktifitas(A)
+	}
+}
+func tugasPrioritasDescend(A *tabtugas) {
+	var pass, j, indeks int
+	var temp Tugas
+	pass = 0
+	for pass < idxTugas {
+		indeks = pass
+		j = pass + 1
+		for j < idxTugas {
+			if A[j].prioritas > A[indeks].prioritas {
+				indeks = j
+			}
+		}
+		temp = A[pass]
+		A[pass] = A[indeks]
+		A[indeks] = temp
+	}
+}
+func tugasPrioritasAscend(A *tabtugas, tglAktif int) {
+	var pass, i int
+	var temp Tugas
+	pass = 1
+	for pass < idxTugas {
+		temp = A[pass]
+		i = pass - 1
+		for i >= 0 && A[i].prioritas > temp.prioritas {
+			A[i+1] = A[i]
+			i = i - 1
+		}
+		A[i+1] = temp
+		pass = pass + 1
+	}
+
+}
+func ubahTugas(A *tabtugas, tglAktif int) {
+	var nomor, i int
+	fmt.Println("\n==UBAH TUGAS==")
+	tampilkanTugas(A)
+	if idxTugas == 0 {
+		fmt.Println("Tidak ada data")
+	} else {
+		fmt.Print("Nomor Tugas: ")
+		fmt.Scan(&nomor)
+		if nomor < 1 || nomor > idxTugas {
+			fmt.Println("Nomor tidak valid")
+		} else {
+			i = nomor - 1
+			fmt.Print("Masukan data baru (nama, prioritas, deadline): ")
+			fmt.Scan(&A[i].namaTugas, &A[i].prioritas, &A[i].deadline)
+			fmt.Println("Tugas diubah")
+		}
+	}
+}
 func MenuKesehatanMental(){
 	fmt.Printf("=== CEK KESEHATAN MENTAL ===\n")
 	fmt.Println("APA YANG BISA KAMI BANTU HARI INI?")
