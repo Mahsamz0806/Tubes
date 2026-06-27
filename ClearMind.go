@@ -1,11 +1,11 @@
 package main
 import "fmt"
 
-//Variabel global untuk diapaki semua function dan procedure
+//Variabel global dan konstanta
 var pilihan, idxTugas, idxJurnal int
 const NMAX int = 1000
 const BatasKoinMental int = 30
-const BatasStress int = 10//Untuk sementara segini
+const BatasStress int = 10
 
 type Mental struct{
 	tanggal int//Format DDMMYYYY
@@ -39,7 +39,7 @@ func tanggalAktif(tanggal *int) {//Tanggal untuk kedua menu, pada Produktivitas 
 	fmt.Printf("Program beroperasi pada tanggal: %d\n", *tanggal)
 }
 
-func menuUtama(A *tabtugas, B *tabJurnal, tglAktif *int){
+func menuUtama(A *tabtugas, B *tabJurnal, tglAktif *int){//Persimpangan antara dua menu
 	fmt.Printf("===== ClearMind =====\n")
 	fmt.Print("[Tanggal Aktif Saat Ini: %d]\n", *tglAktif)//Untuk tanggal yang aktif pada kedua menu
 	fmt.Println("[1] Menu Produktivitas")//Untuk masuk ke menu Produktivitas
@@ -57,11 +57,30 @@ func menuUtama(A *tabtugas, B *tabJurnal, tglAktif *int){
 			tanggalAktif(tglAktif)
 	case 0:
 			fmt.Print("Terima Kasih sudah menggunakan ClearMind. Semoga hari Anda menyenangkan.")
+			return
 	default:
 			fmt.Println("Pilihan tidak valid")
 	}
 	menuUtama(A, B, tglAktif)
 }
+
+func StressMaksimal(A *tabtugas, tglAktif int)bool {
+	bebanTotal := 0
+	for i := 0; i < idxTugas; i++ {
+		if A[i].tanggal == tglAktif {
+			bebanTotal += (A[i].prioritas * 3)
+		}
+	}
+	sisaKoin := BatasKoinMental- bebanTotal
+	if sisaKoin < 0 {
+		stressMeter := (sisaKoin * -1) / 5
+		if stressMeter >= BatasStress {
+			return true
+		}
+	}
+	return false
+}
+
 func produktifitas(A *tabtugas, tglAktif *int) {
 	var pilih int
 	fmt.Println("===HALO SELAMAT DATANG DI PEMBANTU PRODUKTIFITAS===")
@@ -75,7 +94,16 @@ func produktifitas(A *tabtugas, tglAktif *int) {
 	fmt.Scan(&pilih)
 	switch pilih {
 	case 1:
+		if StressMaksimal(A, *tglAktif) {
+			fmt.Println("\n===========================================")
+			fmt.Println("!!! PERINGATAN: STRESS METER MAKSIMAL !!!")
+			fmt.Println("BEBAN MENTAL ANDA TELAH PENUH")
+			fmt.Println("Akses menambah tugas DITUTUP.")
+			fmt.Println("=============================================")
+			tambahJurnalOtomatis(B, *tglAktif)
+		}else{
 		inputDataProduk(A, *tglAktif)
+		}
 	case 2:
 		tampilkanTugas(A, *tglAktif)
 	case 3:
@@ -85,10 +113,14 @@ func produktifitas(A *tabtugas, tglAktif *int) {
 	case 5:
 		ubahTugas(A, *tglAktif)
 	case 6:
-		menuUtama(A)
+		return
+	default:
+			fmt.Println("Pilihan tidak valid")
 	}
+	produktifitas(A, B, tglAktif)
 }
-func inputDataProduk(A *tabtugas, tglAktif int) {
+
+func inputDataProduk(A *tabtugas, tglAktif int) {//Untuk menangani data tugas baru ke array
 	var n, batas int
 	fmt.Println("==INPUT DATA PRODUKTIFITAS==")
 	fmt.Println("BERAPA BANYAK DATA YANG INGIN ANDA INPUT")
@@ -101,7 +133,8 @@ func inputDataProduk(A *tabtugas, tglAktif int) {
 		idxTugas++
 	}
 }
-func tampilkanTugas(A *tabtugas, tglAktif int) {
+
+func tampilkanTugas(A *tabtugas, tglAktif int) {//Menampilkan daftar tugas yang ada pada tanggal aktif
 	var i int
 	fmt.Println("\n==DAFTAR TUGAS==")
 	if idxTugas == 0 {
@@ -121,7 +154,7 @@ func tampilkanTugas(A *tabtugas, tglAktif int) {
 	}
 }
 
-func MenucariTugas(A *tabtugas, tglAktif int) {
+func MenucariTugas(A *tabtugas, tglAktif int) {//Untuk mencari tugas-tugas yang sudah diinput
 	var pilih int
 	fmt.Println("\n==Cari Tugas==")
 	fmt.Println("1. Berdasarkan Nama")
@@ -180,8 +213,8 @@ func cariBinary(A *tabtugas, tglAktif int) {
 	} else {
 		fmt.Printf("%s|%d|%d\n", A[hasil].namaTugas, A[hasil].prioritas, A[hasil].deadline)
 	}
-
 }
+
 func menuPrioritas(A *tabtugas, tglAktif int) {
 	var pilih int
 	fmt.Println("==MENU PRIORITAS==")
@@ -199,6 +232,7 @@ func menuPrioritas(A *tabtugas, tglAktif int) {
 		produktifitas(A)
 	}
 }
+
 func tugasPrioritasDescend(A *tabtugas) {
 	var pass, j, indeks int
 	var temp Tugas
@@ -216,6 +250,7 @@ func tugasPrioritasDescend(A *tabtugas) {
 		A[indeks] = temp
 	}
 }
+
 func tugasPrioritasAscend(A *tabtugas, tglAktif int) {
 	var pass, i int
 	var temp Tugas
@@ -251,6 +286,7 @@ func ubahTugas(A *tabtugas, tglAktif int) {
 		}
 	}
 }
+
 func MenuKesehatanMental(A *tabtugas, B *tabmental, tglAktif *int){
 	fmt.Printf("=== CEK KESEHATAN MENTAL ===\n", *tglAktif)
 	fmt.Println("APA YANG BISA KAMI BANTU?")
@@ -362,6 +398,27 @@ func tambahJurnalManual(B *tabJurnal, tglAktif int){
 	fmt.Println("Jurnal baru telah disimpan")
 }
 
+func tambahJurnalOtomatis(B *tabmental, tglAKtif int){//Digunakan jika stress meter sudah melebihi maksimal
+	indeksTarget := idxJurnal
+	jurnalDitemukan := false
+	for j := 0; j < idxJurnal && !jurnalDitemukan{
+		if B[j].tanggal == tglAktif {
+			indeksTarget = j
+			jurnalDitemukan = true
+		}
+	}
+	B[indeksTarget].tanggal = tglAktif
+	fmt.Print("Skor Emosi Akibat Burnout Hari Ini (1-10): ")
+	fmt.Scan(&B[indeksTarget].skorEmosi)
+	fmt.Println("uliskan apa yang Anda rasakan saat ini (Gunakan _ sebagai spasi): ")
+	fmt.Scan(&B[indeksTarget].catatanEmosi)
+
+	if !jurnalDitemukan {
+		idxJurnal++
+	}
+	fmt.Println("Data kondisi darurat berhasil direkam. Beristirahatlah.")
+}
+
 func tampilkanSemuaJurnal(B *tabmental){
 	fmt.Println("\n== RIWAYAT JURNAL MENTAL ==")
 	if idxJurnal == 0 {
@@ -421,7 +478,10 @@ func menuCariJurnal(B *tabmental){
 				B[hasil].tanggal, B[hasil].skorEmosi, B[hasil].stressMeter, B[hasil].catatanEmosi)
 			}
 	case 0:
-			MenuKesehatanMental(B)
+			return
+	default:
+			fmt.Println("Pilihan tidak valid")
+	}
 }
 
 //Sorting Bagian Mental secara Selection dan Insertion tergantung pilihan
@@ -461,6 +521,10 @@ func menuSortJurnal(B *tabmental){
 				}
 				fmt.Println("Riwayat jurnal diurutkan berdasar tanggal terlama.")
 				tampilkanSemuaJurnal(B)
+		case 0:
+			return
+		default:
+			fmt.Println("Pilihan tidak valid")
 	}
 }
 
