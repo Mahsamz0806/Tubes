@@ -221,7 +221,7 @@ func cariBinary(A *tabtugas, tglAktif int) {
 	hasil = -1
 	for low <= high && hasil == -1 {
 		mid = (low + high) / 2
-		if A[mid].prioritas == target && A[mid].tanggal == tgl aktif {
+		if A[mid].prioritas == target && A[mid].tanggal == tglAktif {
 			hasil = mid
 		} else if A[mid].prioritas < target {
 			low = mid + 1
@@ -267,7 +267,7 @@ func tugasPrioritasDescend(A *tabtugas, tglAktif int) {
 		indeks = pass
 		j = pass + 1
 		for j < idxTugas {
-			if A[j].prioritas > A[indeks].prioritas {
+			if A[j].prioritas > A[indeks].prioritas && A[i].tanggal == tglAktif {
 				indeks = j
 			}
 			j++
@@ -288,7 +288,7 @@ func tugasPrioritasAscend(A *tabtugas, tglAktif int) {
 			if A[pass].tanggal == tglAktif{
 				temp = A[pass]
 			i = pass - 1
-			for i >= 0 && A[i].prioritas > temp.prioritas {
+			for i >= 0 && A[i].prioritas > temp.prioritas && A[i].tanggal == tglAktif {
 				A[i+1] = A[i]
 				i = i - 1
 			}
