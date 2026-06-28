@@ -314,7 +314,7 @@ func ubahTugas(A *tabtugas, tglAktif int) {//untuk mengubah tugas
 			if A[i].tanggal == tglAktif{
 				hitung++
 				if hitung == nomor{
-					indeksAsli -i
+					indeksAsli = i
 				}
 			}
 		}
@@ -322,7 +322,7 @@ func ubahTugas(A *tabtugas, tglAktif int) {//untuk mengubah tugas
 			fmt.Println("Nomor tidak valid")
 		}else{
 			fmt.Print("Masukan data baru(nama, prioritas, deadline): ")
-			fmt.Scan(&A[indeksAsli].namaTugas,&A[indeksAsli].priortas,&A[indeksAsli].deadline)
+			fmt.Scan(&A[indeksAsli].namaTugas,&A[indeksAsli].prioritas,&A[indeksAsli].deadline)
 			fmt.Println("Tugas berhasil diubah")
 		}
 	}
