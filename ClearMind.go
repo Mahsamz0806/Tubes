@@ -68,15 +68,16 @@ func menuUtama(A *tabtugas, B *tabmental, tglAktif *int){//Persimpangan antara d
 }
 
 func StressMaksimal(A *tabtugas, tglAktif int)bool {
-	bebanTotal := 0
-	for i := 0; i < idxTugas; i++ {
+	var bebanTotal, i, sisaKoin, stressMeter int
+	bebanTotal = 0
+	for i = 0; i < idxTugas; i++ {
 		if A[i].tanggal == tglAktif {
 			bebanTotal += (A[i].prioritas * 3)
 		}
 	}
-	sisaKoin := BatasKoinMental- bebanTotal
+	sisaKoin = BatasKoinMental- bebanTotal
 	if sisaKoin < 0 {
-		stressMeter := (sisaKoin * -1) / 5
+		stressMeter = (sisaKoin * -1) / 5
 		if stressMeter >= BatasStress {
 			return true
 		}
