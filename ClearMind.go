@@ -458,7 +458,7 @@ func tambahJurnalOtomatis(B *tabmental, tglAktif int){//Digunakan jika stress me
 			jurnalDitemukan = true
 		}
 	}
-	if jurnalDitemukan || idxJurnal < NMAX{
+	if jurnalDitemukan && idxJurnal < NMAX{
 		B[indeksTarget].tanggal = tglAktif
 		fmt.Print("Skor Emosi Akibat Burnout Hari Ini (1-10): ")
 		fmt.Scan(&B[indeksTarget].skorEmosi)
