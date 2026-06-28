@@ -373,20 +373,22 @@ func MenuKesehatanMental(A *tabtugas, B *tabmental, tglAktif *int){
 }
 
 	func hitungLimitMental(A *tabtugas, B *tabmental, tglAktif int){
+		var bebanTotal, jumlahTugasYngAda, i, stressMeter, sisaKoin int
+		var jurnalDitemukan bool
 		fmt.Println("[ CEK KOIN MENTAL DAN STRESS METER ]")
-		bebanTotal := 0
-		jumlahTugasYngAda := 0
+		bebanTotal = 0
+		jumlahTugasYngAda = 0
 
 		//Pembacaan/Perhitungan tugas dan koin mental
-		for i := 0; i < idxTugas; i++ {
+		for i = 0; i < idxTugas; i++ {
 			if A[i].tanggal == tglAktif {
 				jumlahTugasYngAda++
 				bebanTotal += (A[i].prioritas * 3)
 			}
 		}
 
-		sisaKoin := BatasKoinMental - bebanTotal
-		stressMeter := 0
+		sisaKoin = BatasKoinMental - bebanTotal
+		stressMeter = 0
 		if sisaKoin < 0 {
 			stressMeter = (sisaKoin * -1) / 5
 			sisaKoin = 0
@@ -396,8 +398,8 @@ func MenuKesehatanMental(A *tabtugas, B *tabmental, tglAktif *int){
 		}
 
 		//Menyambungkan data ke Array Mental
-		jurnalDitemukan := false
-		i := 0
+		jurnalDitemukan = false
+		i = 0
 		for i < idxJurnal && !jurnalDitemukan {
 			if B[i].tanggal == tglAktif{
 				B[i].sisaKoin = sisaKoin
@@ -499,7 +501,8 @@ func tampilkanSemuaJurnal(B *tabmental) {//procedure untuk menampilkan semua jur
 }
 
 func menuCariJurnal(B *tabmental) {//procedure untuk mencari jurnal berdasarkan berbagai kategori
-	var target, kembali int
+	var target, kembali, i, hasil int
+	var found bool
 	kembali = 0
 	for kembali == 0{
 		fmt.Println("\n== CARI JURNAL MENTAL ==")
@@ -513,8 +516,8 @@ func menuCariJurnal(B *tabmental) {//procedure untuk mencari jurnal berdasarkan 
 		case 1:
 			fmt.Print("Masukkan Skor Emosi yang dicari (0-10): ")
 			fmt.Scan(&target)
-			found := false
-			i := 0
+			found = false
+			i = 0
 			for i < idxJurnal {
 				if B[i].skorEmosi == target {
 					fmt.Printf("Ditemukan -> Tgl: %d | Stres: %d | Catatan: %s\n", B[i].tanggal, B[i].stressMeter, B[i].catatanEmosi)
@@ -528,7 +531,7 @@ func menuCariJurnal(B *tabmental) {//procedure untuk mencari jurnal berdasarkan 
 		case 2:
 			fmt.Print("Masukkan Tanggal yang dicari (Pastikan tanggal sudah diurutkan): ")
 			fmt.Scan(&target)
-			hasil := cariJurnalTanggalRekursif(B, target, 0)
+			hasil = cariJurnalTanggalRekursif(B, target, 0)
 			if hasil == -1{
 				fmt.Println("Jurnal tidak ditemukan")
 			}else{
@@ -545,7 +548,8 @@ func menuCariJurnal(B *tabmental) {//procedure untuk mencari jurnal berdasarkan 
 
 //Sorting Bagian Mental secara Selection dan Insertion tergantung pilihan
 func menuSortJurnal(B *tabmental){
-	var kembali int
+	var kembali, pass, j, i int
+	var temp Mental
 	kembali = 0
 	for kembali == 0{
 		fmt.Println("\n== URUTKAN JURNAL MENTAL ==")
@@ -557,23 +561,23 @@ func menuSortJurnal(B *tabmental){
 	
 		switch pilihan {
 			case 1: //Pengurutan Selection secara Descending
-					for pass := 0; pass < idxJurnal-1; pass++ {
-						indeks := pass
-						for j := pass + 1; j < idxJurnal; j++ {
+					for pass = 0; pass < idxJurnal-1; pass++ {
+						indeks = pass
+						for j = pass + 1; j < idxJurnal; j++ {
 							if B[j].skorEmosi > B[indeks].skorEmosi {
 								indeks = j
 							}
 						}
-						temp := B[pass]
+						temp = B[pass]
 						B[pass] = B[indeks]
 						B[indeks] = temp
 					}
 			fmt.Println("Riwayat jurnal telah diurutkan berdasar skor emosi tertinggi.")
 			tampilkanSemuaJurnal(B)
 			case 2:
-					for pass := 1; pass < idxJurnal; pass++ {
-						temp := B[pass]
-						i := pass - 1
+					for pass = 1; pass < idxJurnal; pass++ {
+						temp = B[pass]
+						i = pass - 1
 						for i >= 0 && B[i].tanggal > temp.tanggal {
 							B[i+1] = B[i]
 							i = i -1
