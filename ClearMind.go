@@ -154,7 +154,7 @@ func tampilkanTugas(A *tabtugas, tglAktif int) {//Menampilkan daftar tugas yang 
 	if idxTugas == 0 {
 		fmt.Println("Belum Ada Tugas")
 	} else {
-		fmt.Printf("%-5s %-20s %-10s %-10s", "No", "Nama", "Prioritas", "Deadline")
+		fmt.Printf("\n%-5s %-20s %-10s %-10s\n", "No", "Nama", "Prioritas", "Deadline")
 		for i = 0; i < idxTugas; i++ {
 			if A[i].tanggal == tglAktif {
 				fmt.Printf("%-5d %-20s %-10d %-10d\n",
@@ -210,6 +210,7 @@ func cariSequential(A *tabtugas, tglAktif int) {
 
 func cariBinary(A *tabtugas, tglAktif int) {
 	var target, low, high, mid, hasil int
+	tugasPrioritasAscend(A, tglAktif)
 	fmt.Println("Prioritas: ")
 	fmt.Scan(&target)
 	low = 0
@@ -276,6 +277,7 @@ func tugasPrioritasDescend(A *tabtugas, tglAktif int) {
 		A[indeks] = temp
 		pass++
 	}
+	tampilkanTugas(A, tglAktif)
 }
 
 func tugasPrioritasAscend(A *tabtugas, tglAktif int) {
@@ -283,16 +285,18 @@ func tugasPrioritasAscend(A *tabtugas, tglAktif int) {
 	var temp Tugas
 	pass = 1
 	for pass < idxTugas {
-		temp = A[pass]
-		i = pass - 1
-		for i >= 0 && A[i].prioritas > temp.prioritas {
-			A[i+1] = A[i]
-			i = i - 1
+			if A[pass].tanggal == tglAktif{
+				temp = A[pass]
+			i = pass - 1
+			for i >= 0 && A[i].prioritas > temp.prioritas {
+				A[i+1] = A[i]
+				i = i - 1
+			}
+			A[i+1] = temp
 		}
-		A[i+1] = temp
 		pass = pass + 1
 	}
-
+	tampilkanTugas(A, tglAktif)
 }
 func ubahTugas(A *tabtugas, tglAktif int) {//untuk mengubah tugas
 	var nomor, i, indeksAsli int
