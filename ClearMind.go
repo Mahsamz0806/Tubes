@@ -134,6 +134,10 @@ func inputDataProduk(A *tabtugas, tglAktif int) {//Untuk menangani data tugas ba
 	fmt.Println("BERAPA BANYAK DATA YANG INGIN ANDA INPUT")
 	fmt.Scan(&n)
 	batas = idxTugas + n
+	if batas > NMAX{
+		batas = NMAX
+		fmt.Println("Data melebihi kapasitas, hanya sebagian yang disimpan")
+	}
 	fmt.Println("INPUT DATA ANDA SECARA BERURUTAN (NAMA, PRIORITAS, DEADLINE)")
 	for idxTugas < batas {
 		A[idxTugas].tanggal = tglAktif
@@ -444,24 +448,31 @@ func tambahJurnalManual(B *tabmental, tglAktif int){
 }
 
 func tambahJurnalOtomatis(B *tabmental, tglAktif int){//Digunakan jika stress meter sudah melebihi maksimal
-	indeksTarget := idxJurnal
-	jurnalDitemukan := false
+	var indeksTarget int
+	var jurnalDitemukan
+	indeksTarget = idxJurnal
+	jurnalDitemukan = false
 	for j := 0; j < idxJurnal && !jurnalDitemukan{
 		if B[j].tanggal == tglAktif {
 			indeksTarget = j
 			jurnalDitemukan = true
 		}
 	}
-	B[indeksTarget].tanggal = tglAktif
-	fmt.Print("Skor Emosi Akibat Burnout Hari Ini (1-10): ")
-	fmt.Scan(&B[indeksTarget].skorEmosi)
-	fmt.Println("uliskan apa yang Anda rasakan saat ini (Gunakan _ sebagai spasi): ")
-	fmt.Scan(&B[indeksTarget].catatanEmosi)
-
-	if !jurnalDitemukan {
-		idxJurnal++
+	if jurnalDitemukan || idxJurnal < NMAX{
+		B[indeksTarget].tanggal = tglAktif
+		fmt.Print("Skor Emosi Akibat Burnout Hari Ini (1-10): ")
+		fmt.Scan(&B[indeksTarget].skorEmosi)
+		fmt.Println("uliskan apa yang Anda rasakan saat ini (Gunakan _ sebagai spasi): ")
+		fmt.Scan(&B[indeksTarget].catatanEmosi)
+	
+		if !jurnalDitemukan {
+			idxJurnal++
+		}
+		fmt.Println("Data kondisi darurat berhasil direkam. Beristirahatlah.")
+	}else{
+		fmt.Println("Memori jurnal penuh")
 	}
-	fmt.Println("Data kondisi darurat berhasil direkam. Beristirahatlah.")
+
 }
 
 func tampilkanSemuaJurnal(B *tabmental) {//procedure untuk menampilkan semua jurnal
