@@ -148,7 +148,8 @@ func inputDataProduk(A *tabtugas, tglAktif int) {//Untuk menangani data tugas ba
 }
 
 func tampilkanTugas(A *tabtugas, tglAktif int) {//Menampilkan daftar tugas yang ada pada tanggal aktif
-	var i int
+	var i, no int
+	no = 1
 	fmt.Println("\n==DAFTAR TUGAS==")
 	if idxTugas == 0 {
 		fmt.Println("Belum Ada Tugas")
@@ -157,11 +158,12 @@ func tampilkanTugas(A *tabtugas, tglAktif int) {//Menampilkan daftar tugas yang 
 		for i = 0; i < idxTugas; i++ {
 			if A[i].tanggal == tglAktif {
 				fmt.Printf("%-5d %-20s %-10d %-10d\n",
-					i+1,
+					no,
 					A[i].namaTugas,
 					A[i].prioritas,
 					A[i].deadline,
 				)
+				no++
 			}
 		}
 	}
@@ -198,7 +200,7 @@ func cariSequential(A *tabtugas, tglAktif int) {
 	i = 0
 	found = false
 	for i < idxTugas && found == false {
-		if A[i].namaTugas == nama {
+		if A[i].namaTugas == nama && A[i].tanggal == tglAktif {
 			fmt.Printf("%s| %d | %d \n", A[i].namaTugas, A[i].prioritas, A[i].deadline)
 			found = true
 		}
@@ -244,8 +246,10 @@ func menuPrioritas(A *tabtugas, B *tabmental, tglAktif *int) {
 		switch pilih {
 			case 1:
 				tugasPrioritasAscend(A, *tglAktif)
+				tampilkanTugas(A, *tglAktif)
 			case 2:
 				tugasPrioritasDescend(A, *tglAktif)
+				tampilkanTugas(A, *tglAktif)
 			case 3:
 				kembali = 1
 			default:
@@ -291,7 +295,7 @@ func tugasPrioritasAscend(A *tabtugas, tglAktif int) {
 
 }
 func ubahTugas(A *tabtugas, tglAktif int) {//untuk mengubah tugas
-	var nomor, i int
+	var nomor, i, indeksAsli int
 	fmt.Println("\n==UBAH TUGAS==")
 	tampilkanTugas(A, tglAktif)
 	if idxTugas == 0 {
