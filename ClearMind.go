@@ -14,7 +14,7 @@ type Mental struct{
 	sisaKoin int//Untuk menyimpan data dari Array Tugas
 	stressMeter int//Untuk menimpan data dari Array Tugas
 }
-type tabmental [NMAX]JurnalMental
+type tabmental [NMAX]Mental
 
 type Tugas struct {
 	tanggal int//Format DDMMYYYY
@@ -29,19 +29,20 @@ func main() {
 	var A tabtugas
 	var B tabmental
 	var tglAktif int
-	setTanggalSesi(&tanggalAktif)
-	menuUtama(&A, &B, &tanggalAktif)
+	tanggalAktif(&tglAktif)
+	menuUtama(&A, &B, &tglAktif)
 }
 
 func tanggalAktif(tanggal *int) {//Tanggal untuk kedua menu, pada Produktivitas dan Mental
 	fmt.Println("Masukkan Tanggal Sesi Ini (Format: DDMMYYYY, cth: 12062026): ")
-	fmt.Scan(&tanggal)
+	fmt.Scan(tanggal)
 	fmt.Printf("Program beroperasi pada tanggal: %d\n", *tanggal)
 }
 
-func menuUtama(A *tabtugas, B *tabJurnal, tglAktif *int){//Persimpangan antara dua menu
+func menuUtama(A *tabtugas, B *tabmental, tglAktif *int){//Persimpangan antara dua menu
+	var keluar int
 	fmt.Printf("===== ClearMind =====\n")
-	fmt.Print("[Tanggal Aktif Saat Ini: %d]\n", *tglAktif)//Untuk tanggal yang aktif pada kedua menu
+	fmt.Printf("[Tanggal Aktif Saat Ini: %d]\n", *tglAktif)//Untuk tanggal yang aktif pada kedua menu
 	fmt.Println("[1] Menu Produktivitas")//Untuk masuk ke menu Produktivitas
 	fmt.Println("[2] Menu Kesehatan Mental")//Untuk masuk ke menu Kesehatan Mental
 	fmt.Println("[3] Ubah Tanggal")
@@ -57,11 +58,13 @@ func menuUtama(A *tabtugas, B *tabJurnal, tglAktif *int){//Persimpangan antara d
 			tanggalAktif(tglAktif)
 	case 0:
 			fmt.Print("Terima Kasih sudah menggunakan ClearMind. Semoga hari Anda menyenangkan.")
-			return
+			keluar = 1
 	default:
 			fmt.Println("Pilihan tidak valid")
 	}
-	menuUtama(A, B, tglAktif)
+	if keluar == 0 {
+		menuUtama(A,B,tglAktif)
+	}
 }
 
 func StressMaksimal(A *tabtugas, tglAktif int)bool {
@@ -81,8 +84,8 @@ func StressMaksimal(A *tabtugas, tglAktif int)bool {
 	return false
 }
 
-func produktifitas(A *tabtugas, tglAktif *int) {
-	var pilih int
+func produktifitas(A *tabtugas, B *tabmental, tglAktif *int) {
+	var pilih, kembali int
 	fmt.Println("===HALO SELAMAT DATANG DI PEMBANTU PRODUKTIFITAS===")
 	fmt.Println("APA YANG KAMI BISA BANTU HARI INI?")
 	fmt.Println("1. Input Tugas")
@@ -108,19 +111,22 @@ func produktifitas(A *tabtugas, tglAktif *int) {
 	case 2:
 		tampilkanTugas(A, *tglAktif)
 	case 3:
-		menuPrioritas(A)
+		menuPrioritas(A, B, tglAktif)
 	case 4:
-		MenucariTugas(A)
+		MenucariTugas(A, B, tglAktif)
 	case 5:
 		ubahTugas(A, *tglAktif)
 	case 6:
 		hapusTugas (A, *tglAktif)
 	case 7 :
-		return
+		kembali = 1
 	default:
 			fmt.Println("Pilihan tidak valid")
 	}
-	produktifitas(A, B, tglAktif)
+	if kembali == 0{
+		produktifitas(A, B, tglAktif)
+	}
+	
 }
 
 func inputDataProduk(A *tabtugas, tglAktif int) {//Untuk menangani data tugas baru ke array
@@ -157,7 +163,7 @@ func tampilkanTugas(A *tabtugas, tglAktif int) {//Menampilkan daftar tugas yang 
 	}
 }
 
-func MenucariTugas(A *tabtugas, tglAktif int) {//Untuk mencari tugas-tugas yang sudah diinput
+func MenucariTugas(A *tabtugas, B *tabmental, tglAktif *int) {//Untuk mencari tugas-tugas yang sudah diinput
 	var pilih int
 	fmt.Println("\n==Cari Tugas==")
 	fmt.Println("1. Berdasarkan Nama")
@@ -167,11 +173,11 @@ func MenucariTugas(A *tabtugas, tglAktif int) {//Untuk mencari tugas-tugas yang 
 	fmt.Scan(&pilih)
 	switch pilih {
 	case 1:
-		cariSequential(A)
+		cariSequential(A, *tglAktif)
 	case 2:
-		cariBinary(A)
+		cariBinary(A, *tglAktif)
 	case 3:
-		menuPrioritas(A)
+		menuPrioritas(A,B,tglAktif)
 
 	}
 }
@@ -218,7 +224,7 @@ func cariBinary(A *tabtugas, tglAktif int) {
 	}
 }
 
-func menuPrioritas(A *tabtugas, tglAktif int) {
+func menuPrioritas(A *tabtugas, B *tabmental, tglAktif *int) {
 	var pilih int
 	fmt.Println("==MENU PRIORITAS==")
 	fmt.Println("1.Ascending")
@@ -228,29 +234,31 @@ func menuPrioritas(A *tabtugas, tglAktif int) {
 	fmt.Scan(&pilih)
 	switch pilih {
 	case 1:
-		tugasPrioritasAscend(A)
+		tugasPrioritasAscend(A, *tglAktif)
 	case 2:
-		tugasPrioritasDescend(A)
+		tugasPrioritasDescend(A, *tglAktif)
 	case 3:
-		produktifitas(A)
+		produktifitas(A, B, tglAktif)
 	}
 }
 
-func tugasPrioritasDescend(A *tabtugas) {
+func tugasPrioritasDescend(A *tabtugas, tglAktif int) {
 	var pass, j, indeks int
 	var temp Tugas
 	pass = 0
-	for pass < idxTugas {
+	for pass < idxTugas-1 {
 		indeks = pass
 		j = pass + 1
 		for j < idxTugas {
 			if A[j].prioritas > A[indeks].prioritas {
 				indeks = j
 			}
+			j++
 		}
 		temp = A[pass]
 		A[pass] = A[indeks]
 		A[indeks] = temp
+		pass++
 	}
 }
 
@@ -273,7 +281,7 @@ func tugasPrioritasAscend(A *tabtugas, tglAktif int) {
 func ubahTugas(A *tabtugas, tglAktif int) {//untuk mengubah tugas
 	var nomor, i int
 	fmt.Println("\n==UBAH TUGAS==")
-	tampilkanTugas(A)
+	tampilkanTugas(A, tglAktif)
 	if idxTugas == 0 {
 		fmt.Println("Tidak ada data")
 	} else {
@@ -291,11 +299,11 @@ func ubahTugas(A *tabtugas, tglAktif int) {//untuk mengubah tugas
 }
 
 func hapusTugas(A *tabtugas, tglAktif  int){// untuk menghapus tugas
-	var nomor, i, indekstarget int
+	var nomor, i, indeksTarget int
 	var namaTerhapus string
 	fmt.Println("\n==HAPUS TUGAS==")
 	tampilkanTugas(A, tglAktif)
-	if idx == 0{
+	if idxTugas == 0{
 		fmt.Println("Tidak ada tugas yang bisa dihapus")
 	}else{
 		fmt.Print("Masukan nomor tugas yang ingin dihapus: ")
@@ -303,7 +311,7 @@ func hapusTugas(A *tabtugas, tglAktif  int){// untuk menghapus tugas
 		if nomor < 1 || nomor > idxTugas{
 			fmt.Println("Nomor tidak valid. Penghapusan dibatalkan.")
 		}else{
-			indeks target = nomor-1
+			indeksTarget = nomor-1
 			namaTerhapus = A[indeksTarget].namaTugas
 			i = indeksTarget
 			for i < idxTugas-1{
@@ -317,7 +325,8 @@ func hapusTugas(A *tabtugas, tglAktif  int){// untuk menghapus tugas
 }
 
 func MenuKesehatanMental(A *tabtugas, B *tabmental, tglAktif *int){
-	fmt.Printf("=== CEK KESEHATAN MENTAL ===\n", *tglAktif)
+	var kembali int
+	fmt.Println("=== CEK KESEHATAN MENTAL ===\n")
 	fmt.Println("APA YANG BISA KAMI BANTU?")
 	fmt.Println("[1] Kalkulasi Koin Mental Harian")
 	fmt.Println("[2] Tambah Jurnal Baru")
@@ -343,9 +352,12 @@ func MenuKesehatanMental(A *tabtugas, B *tabmental, tglAktif *int){
 	case 6:
 			hapusJurnal(B, *tglAktif)
 	case 0:
-			menuUtama(A)
+			kembali = 1
 	default: 
 			fmt.Println("Pilihan tidak valid.")
+	}
+	if kembali == 0{
+		MenuKesehatanMental(A, B, tglAktif)
 	}
 }
 
@@ -362,7 +374,7 @@ func MenuKesehatanMental(A *tabtugas, B *tabmental, tglAktif *int){
 			}
 		}
 
-		sisaKoin := BatasKoinHarian - bebanTotal
+		sisaKoin := BatasKoinMental - bebanTotal
 		stressMeter := 0
 		if sisaKoin < 0 {
 			stressMeter = (sisaKoin * -1) / 5
@@ -373,10 +385,10 @@ func MenuKesehatanMental(A *tabtugas, B *tabmental, tglAktif *int){
 		}
 
 		//Menyambungkan data ke Array Mental
-		jurnalDitemukan : false
+		jurnalDitemukan := false
 		i := 0
 		for i < idxJurnal && !jurnalDitemukan {
-			if B[i].tanggal == tglAktif
+			if B[i].tanggal == tglAktif{
 				B[i].sisaKoin = sisaKoin
 				B[i].stressMeter = stressMeter
 				jurnalDitemukan = true
@@ -391,19 +403,21 @@ func MenuKesehatanMental(A *tabtugas, B *tabmental, tglAktif *int){
 			idxJurnal++
 		}
 
-		fmt.Printf("Total Tugas Hari Ini : %d Tugas\n", jumlahTugasDitemukan)
+		fmt.Printf("Total Tugas Hari Ini : %d Tugas\n", jumlahTugasYngAda)
 		fmt.Printf("Beban Koin Mental    : %d\n", bebanTotal)
-		fmt.Printf("Sisa Koin Anda       : %d / %d\n", sisaKoin, BatasKoinHarian)
+		fmt.Printf("Sisa Koin Anda       : %d / %d\n", sisaKoin, BatasKoinMental)
 		fmt.Printf("Stress Meter         : %d / %d\n", stressMeter, BatasStress)
 }
 
 //Satu Tanggal hanya boleh satu jurnal
-func tambahJurnalManual(B *tabJurnal, tglAktif int){
+func tambahJurnalManual(B *tabmental, tglAktif int){
+	var ada bool
+	var i int
 	fmt.Println("\n== TAMBAH JURNAL MENTAL ==")
 
 	//Cek apakah tanggal sudah berjurnal
-	ada := false
-	for I := 0; i < idxJurnal; i++{
+	ada = false
+	for i = 0; i < idxJurnal; i++{
 		if B[i].tanggal == tglAktif {
 			ada = true
 		}
@@ -411,23 +425,18 @@ func tambahJurnalManual(B *tabJurnal, tglAktif int){
 	
 	if ada{
 		fmt.Println("[!] Jurnal untuk tanggal ini sudah ada. Gunakan menu kalkulasi untuk memperbarui data.")
-		return
-	}
-	if idxJurnal >= NMAX {
-		fmt.Println("[!] Memori jurnal penuh.")	
-		return
-	}
-
-	B[idxJurnal].tanggal = tglAktif
+	}else if idxJurnal>= NMAX{
+		fmt.Println("[!] Memori jurnal penuh")
+	}else{	B[idxJurnal].tanggal = tglAktif
 	fmt.Print("Masukkan Skor Emosi Anda Hari ini (1-10): ")
 	fmt.Scan(&B[idxJurnal].skorEmosi)
 	fmt.Println("Tuliskan deskripsi singkat perasaan Anda (Gunakan _ sebagai spasi): ")
 	fmt.Scan(&B[idxJurnal].catatanEmosi)
 	idxJurnal++
-	fmt.Println("Jurnal baru telah disimpan")
+	fmt.Println("Jurnal baru telah disimpan")}
 }
 
-func tambahJurnalOtomatis(B *tabmental, tglAKtif int){//Digunakan jika stress meter sudah melebihi maksimal
+func tambahJurnalOtomatis(B *tabmental, tglAktif int){//Digunakan jika stress meter sudah melebihi maksimal
 	indeksTarget := idxJurnal
 	jurnalDitemukan := false
 	for j := 0; j < idxJurnal && !jurnalDitemukan{
@@ -448,21 +457,23 @@ func tambahJurnalOtomatis(B *tabmental, tglAKtif int){//Digunakan jika stress me
 	fmt.Println("Data kondisi darurat berhasil direkam. Beristirahatlah.")
 }
 
-func tampilkanSemuaJurnal(B *tabmental){
+func tampilkanSemuaJurnal(B *tabmental) {//procedure untuk menampilkan semua jurnal
 	fmt.Println("\n== RIWAYAT JURNAL MENTAL ==")
-	if idxJurnal == 0 {
+	if idxJurnal > 0 {
+		fmt.Printf("%-5s %-12s %-12s %-12s %-20s\n", "No", "Tanggal", "Skor Emosi", "Stress Meter", "Catatan")
+		i := 0
+		for i < idxJurnal {
+			fmt.Printf("%-5d %-12d %-12d %-12d %-20s\n",
+				i+1, B[i].tanggal, B[i].skorEmosi, B[i].stressMeter, B[i].catatanEmosi)
+			i = i + 1
+		}
+	} else {
 		fmt.Println("Belum ada riwayat jurnal.")
-		return
-	}
-	fmt.Printf("%-5s %-12s %-12s %-12s %-20s\n", "No", "Tanggal", "Skor Emosi", "Stress Meter", "Catatan")
-	for i := 0; i < idxJurnal; i++ {
-		fmt.Printf("%-5d %-12d %-12d %-12d %-20s\n", 
-			i+1, B[i].tanggal, B[i].skorEmosi, B[i].stressMeter, B[i].catatanEmosi)
 	}
 }
 
-func menuCariJurnal(B *tabmental){
-	var target int
+func menuCariJurnal(B *tabmental) {//procedure untuk mencari jurnal berdasarkan berbagai kategori
+	var target, kembali int
 	fmt.Println("\n== CARI JURNAL MENTAL ==")
 	fmt.Println("[1] Cari Berdasar Skor Emosi")
 	fmt.Println("[2] Cari Berdasar Tanggal")
@@ -471,51 +482,45 @@ func menuCariJurnal(B *tabmental){
 	fmt.Scan(&pilihan)
 
 	switch pilihan {
-	case 1: //Pencarian sequential berdasar skor emosi
-			fmt.Print("Masukkan Skor Emosi yang dicari (0-10): ")
-			fmt.Scan(&target)
-			found := false
-			for i := 0; i < idxJurnal; i++ {
-				if B[i].skorEmosi == target {
-					fmt.Printf("Ditemukan -> Tgl: %d | Stres: %d | Catatan: %s\n", B[i].tanggal, B[i].stressMeter, B[i].catatanEmosi)
+	case 1:
+		fmt.Print("Masukkan Skor Emosi yang dicari (0-10): ")
+		fmt.Scan(&target)
+		found := false
+		i := 0
+		for i < idxJurnal {
+			if B[i].skorEmosi == target {
+				fmt.Printf("Ditemukan -> Tgl: %d | Stres: %d | Catatan: %s\n", B[i].tanggal, B[i].stressMeter, B[i].catatanEmosi)
 				found = true
-				}
 			}
-			if !found {
-				fmt.Println("Tidak ada jurnal dengan skor emosi tersebut.")
-			}
-	case 2: //Pencarian binary berdasar tanggal
-			fmt.Print("Masukkan Tanggal yang dicari (Pastikan tanggal sudah diurutkan): ")
-			fmt.Scan(&target)
-			low := 0
-			high := idxJurnal - 1
-			hasil := -1
-			for low <= high && hasil == -1 {
-				mid := (low + high) / 2
-				if B[mid].tanggal == target {
-					hasil = mid
-				}else if B[mid].tanggal < target {
-					low = mid + 1
-				}else{
-					high = mid - 1
-				}
-			}
-			if hasil == -1 {
-				fmt.Println("Jurnal tidak ditemukan pada tanggal tersebut.")
-			}else{
-				fmt.Printf("Ditemukan -> Tgl: %d | Emosi: %d | Stres: %d | Catatan: %s\n", 
-				B[hasil].tanggal, B[hasil].skorEmosi, B[hasil].stressMeter, B[hasil].catatanEmosi)
-			}
+			i = i + 1
+		}
+		if found == false {
+			fmt.Println("Tidak ada jurnal dengan skor emosi tersebut.")
+		}
+	case 2:
+		fmt.Print("Masukkan Tanggal yang dicari (Pastikan tanggal sudah diurutkan): ")
+		fmt.Scan(&target)
+		hasil := cariJurnalTanggalRekursif(B, target, 0)
+		if hasil == -1{
+			fmt.Println("Jurnal tidak ditemukan")
+		}else{
+			fmt.Printf("Ditemukan -> Tgl: %d | Emosi: %d | Stress: %d | Catatan: %s\n",
+			B[hasil].tanggal, B[hasil].skorEmosi, B[hasil].stressMeter, B[hasil].catatanEmosi)
+		}
 	case 0:
-			return
+		kembali = 1
 	default:
-			fmt.Println("Pilihan tidak valid")
+		fmt.Println("Pilihan tidak valid")
+	}
+
+	if kembali == 0 {
+		menuCariJurnal(B)
 	}
 }
 
 //Sorting Bagian Mental secara Selection dan Insertion tergantung pilihan
 func menuSortJurnal(B *tabmental){
-	var target int
+	var kembali int
 	fmt.Println("\n== URUTKAN JURNAL MENTAL ==")
 	fmt.Println("[1] Urutkan Berdasar Skor Emosi Tertinggi")
 	fmt.Println("[2] Urutkan Berdasar Tanggal Terlama")
@@ -542,7 +547,7 @@ func menuSortJurnal(B *tabmental){
 				for pass := 1; pass < idxJurnal; pass++ {
 					temp := B[pass]
 					i := pass - 1
-					for I >= 0 && B[i].tanggal > temp.tanggal {
+					for i >= 0 && B[i].tanggal > temp.tanggal {
 						B[i+1] = B[i]
 						i = i -1
 					}
@@ -551,36 +556,45 @@ func menuSortJurnal(B *tabmental){
 				fmt.Println("Riwayat jurnal diurutkan berdasar tanggal terlama.")
 				tampilkanSemuaJurnal(B)
 		case 0:
-			return
+			kembali = 1
 		default:
 			fmt.Println("Pilihan tidak valid")
 	}
+	if kembali == 0 {menuSortJurnal(B)}
 }
 
-func hapusJurnal(B *tabmental, tglAktif int){
-	fmt.Println("\n== HAPUS JURNAL")
-	if idxJurnal == 0 {
-		fmt.Printf("Tidak ada data yang jurnal yang bisa dihapus.")
-		return
+func hapusJurnal(B *tabmental, tglAktif int) {//procedure untuk menghapus jurnal
+	var nomor, i, indeksTarget int
+	var tglTerhapus int
+	fmt.Println("\n== HAPUS JURNAL ==")
+	tampilkanSemuaJurnal(B)
+	if idxJurnal > 0 {
+		fmt.Print("\nMasukkan Nomor Jurnal yang ingin dihapus: ")
+		fmt.Scan(&nomor)
+		if nomor >= 1 && nomor <= idxJurnal {
+			indeksTarget = nomor - 1
+			tglTerhapus = B[indeksTarget].tanggal
+			i = indeksTarget
+			for i < idxJurnal-1 {
+				B[i] = B[i+1]
+				i = i + 1
+			}
+			idxJurnal--
+			fmt.Printf("Jurnal untuk tanggal %d berhasil dihapus.\n", tglTerhapus)
+		} else {
+			fmt.Println("Nomor tidak valid. Penghapusan dibatalkan.")
+		}
+	} else {
+		fmt.Println("Tidak ada jurnal yang bisa dihapus.")
 	}
-	fmt.Printf("%-5s %-12s %-12s %-20s\n", "No", "Tanggal", "Skor Emosi", "Catatan")
-	for i := 0; i < idxJurnal; i++ {
-		fmt.Printf("%-5d %-12d %-12d %-20s\n", i+1, B[i].tanggal, B[i].skorEmosi, B[i].catatanEmosi)
-	}
-	var nomor int
-	fmt.Print("\nMasukkan Nomor Jurnal yang ingin dihapus: ")
-	fmt.Scan(&nomor)
-	if nomor < 1 || nomor > idxJurnal {
-		fmt.Println("Nomor tidak valid. Penghapusan dibatalkan.")
-		return
-	}
+}
 
-	indeksTarget := nomor - 1
-	tglTerhapus := B[indeksTarget].tanggal
-
-	for i := indeksTarget; i < idxJurnal - 1; i++ {
-		B[i] = B[i+1]
+func cariJurnalTanggalRekursif(B *tabmental, tglTarget int, idx int)int{
+	if idx >= idxJurnal{
+		return -1
 	}
-	idxJurnal--
-	fmt.Printf("Jurnal untuk tanggal %d berhasil dihapus dari sistem>\n", tglTerhapus)
+	if B[idx].tanggal == tglTarget{
+		return idx
+	}
+	return cariJurnalTanggalRekursif(B, tglTarget, idx+1)
 }
