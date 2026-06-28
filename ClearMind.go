@@ -20,7 +20,7 @@ type Tugas struct {
 	tanggal int//Format DDMMYYYY
 	namaTugas string
 	prioritas int//Skala 1 sampai 5
-	deadline  int//Format 24 jam
+	deadline int//Format 24 jam
 }
 type tabtugas [NMAX]Tugas
 
@@ -450,17 +450,19 @@ func tambahJurnalManual(B *tabmental, tglAktif int){
 }
 
 func tambahJurnalOtomatis(B *tabmental, tglAktif int){//Digunakan jika stress meter sudah melebihi maksimal
-	var indeksTarget int
+	var indeksTarget, j int
 	var jurnalDitemukan bool
 	indeksTarget = idxJurnal
 	jurnalDitemukan = false
-	for j := 0; j < idxJurnal && !jurnalDitemukan{
+	j=0
+	for j < idxJurnal && !jurnalDitemukan{
 		if B[j].tanggal == tglAktif {
 			indeksTarget = j
 			jurnalDitemukan = true
 		}
+		j++
 	}
-	if jurnalDitemukan && idxJurnal < NMAX{
+	if jurnalDitemukan{
 		B[indeksTarget].tanggal = tglAktif
 		fmt.Print("Skor Emosi Akibat Burnout Hari Ini (1-10): ")
 		fmt.Scan(&B[indeksTarget].skorEmosi)
@@ -472,7 +474,7 @@ func tambahJurnalOtomatis(B *tabmental, tglAktif int){//Digunakan jika stress me
 		fmt.Print("Skor Emosi Akibat Burn Out Hari Ini (1-10):")
 		fmt.Scan(&B[idxJurnal].skorEmosi)
 		fmt.Println("Tuliskan apa yang anda rasakan saat ini (gunakan "-" sebagai spasi):")
-		fmt.Scan(&B[idxJurnal.catatanEmosi])
+		fmt.Scan(&B[idxJurnal].catatanEmosi)
 		idxJurnal++
 		fmt.Println("Data kondisi darurat berhasil direkam. Beristirahatlah")
 	}else{
