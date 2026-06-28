@@ -412,7 +412,7 @@ func MenuKesehatanMental(A *tabtugas, B *tabmental, tglAktif *int){
 			B[idxJurnal].sisaKoin = sisaKoin
 			B[idxJurnal].stressMeter = stressMeter
 			B[idxJurnal].skorEmosi = 0
-			B[idxJurnal.catatanEmosi = ""]
+			B[idxJurnal].catatanEmosi = ""
 			idxJurnal++
 		}
 
