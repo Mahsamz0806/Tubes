@@ -411,6 +411,8 @@ func MenuKesehatanMental(A *tabtugas, B *tabmental, tglAktif *int){
 			B[idxJurnal].tanggal = tglAktif
 			B[idxJurnal].sisaKoin = sisaKoin
 			B[idxJurnal].stressMeter = stressMeter
+			B[idxJurnal].skorEmosi = 0
+			B[idxJurnal.catatanEmosi = ""]
 			idxJurnal++
 		}
 
@@ -464,11 +466,15 @@ func tambahJurnalOtomatis(B *tabmental, tglAktif int){//Digunakan jika stress me
 		fmt.Scan(&B[indeksTarget].skorEmosi)
 		fmt.Println("Tuliskan apa yang Anda rasakan saat ini (Gunakan _ sebagai spasi): ")
 		fmt.Scan(&B[indeksTarget].catatanEmosi)
-	
-		if !jurnalDitemukan {
-			idxJurnal++
-		}
 		fmt.Println("Data kondisi darurat berhasil direkam. Beristirahatlah.")
+	}else if !jurnalDitemukan && idxJurnal < NMAX{
+		B[idxJurnal].tanggal = tglAktif
+		fmt.Print("Skor Emosi Akibat Burn Out Hari Ini (1-10):")
+		fmt.Scan(&B[idxJurnal].skorEmosi)
+		fmt.Println("Tuliskan apa yang anda rasakan saat ini (gunakan "-" sebagai spasi):")
+		fmt.Scan(&B[idxJurnal.catatanEmosi])
+		idxJurnal++
+		fmt.Println("Data kondisi darurat berhasil direkam. Beristirahatlah")
 	}else{
 		fmt.Println("Memori jurnal penuh")
 	}
