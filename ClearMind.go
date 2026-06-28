@@ -206,6 +206,9 @@ func cariSequential(A *tabtugas, tglAktif int) {
 		}
 		i = i + 1
 	}
+	if found == false{
+		fmt.Println("Tugas tidak ditemukan")
+	}
 }
 
 func cariBinary(A *tabtugas, tglAktif int) {
@@ -247,10 +250,8 @@ func menuPrioritas(A *tabtugas, B *tabmental, tglAktif *int) {
 		switch pilih {
 			case 1:
 				tugasPrioritasAscend(A, *tglAktif)
-				tampilkanTugas(A, *tglAktif)
 			case 2:
 				tugasPrioritasDescend(A, *tglAktif)
-				tampilkanTugas(A, *tglAktif)
 			case 3:
 				kembali = 1
 			default:
@@ -299,47 +300,63 @@ func tugasPrioritasAscend(A *tabtugas, tglAktif int) {
 	tampilkanTugas(A, tglAktif)
 }
 func ubahTugas(A *tabtugas, tglAktif int) {//untuk mengubah tugas
-	var nomor, i, indeksAsli int
+	var nomor, i, hitung, indeksAsli int
 	fmt.Println("\n==UBAH TUGAS==")
 	tampilkanTugas(A, tglAktif)
-	if idxTugas == 0 {
-		fmt.Println("Tidak ada data")
-	} else {
-		fmt.Print("Nomor Tugas: ")
+	if idxTugas == 0{
+		fmt.Println("Tidak ada data tugas")
+	}else{
+		fmt.Println("Nomor tugas: ")
 		fmt.Scan(&nomor)
-		if nomor < 1 || nomor > idxTugas {
+		hitung = 0
+		indeksAsli = -1
+		for i = 0; i< idxTugas;i++{
+			if A[i].tanggal == tglAktif{
+				hitung++
+				if hitung == nomor{
+					indeksAsli -i
+				}
+			}
+		}
+		if indeksAsli == -1{
 			fmt.Println("Nomor tidak valid")
-		} else {
-			i = nomor - 1
-			fmt.Print("Masukan data baru (nama, prioritas, deadline): ")
-			fmt.Scan(&A[i].namaTugas, &A[i].prioritas, &A[i].deadline)
-			fmt.Println("Tugas diubah")
+		}else{
+			fmt.Print("Masukan data baru(nama, prioritas, deadline): ")
+			fmt.Scan(&A[indeksAsli].namaTugas,&A[indeksAsli].priortas,&A[indeksAsli].deadline)
+			fmt.Println("Tugas berhasil diubah")
 		}
 	}
 }
 
 func hapusTugas(A *tabtugas, tglAktif  int){// untuk menghapus tugas
-	var nomor, i, indeksTarget int
+	var nomor, i, hitung, indeksTarget int
 	var namaTerhapus string
 	fmt.Println("\n==HAPUS TUGAS==")
 	tampilkanTugas(A, tglAktif)
-	if idxTugas == 0{
+	if idxTugas==0{
 		fmt.Println("Tidak ada tugas yang bisa dihapus")
 	}else{
-		fmt.Print("Masukan nomor tugas yang ingin dihapus: ")
+		fmt.Print("Masukan nomor tugas yang ingin dihapus")
 		fmt.Scan(&nomor)
-		if nomor < 1 || nomor > idxTugas{
-			fmt.Println("Nomor tidak valid. Penghapusan dibatalkan.")
+		hitung = 0
+		indeksTarget = -1
+		for i = 0; i<idxTugas;i++{
+			if A[i].tanggal == tglAktif{
+				hitung++
+				if hitung == nomor{
+					indeksTarget = i
+				}
+			}
+		}
+		if indeksTarget == -1{
+			fmt.Println("Nomor tidak valid")
 		}else{
-			indeksTarget = nomor-1
 			namaTerhapus = A[indeksTarget].namaTugas
-			i = indeksTarget
-			for i < idxTugas-1{
+			for i = indeksTarget; i< idxTugas-1;i++{
 				A[i] = A[i+1]
-				i = i+1
 			}
 			idxTugas--
-			fmt.Printf("Tugas \"%s\" berhasil dihapus.\n", namaTerhapus )
+			fmt.Printf("Tugas\"%s\" berhasil dihapus.\n", namaTerhapus)
 		}
 	}
 }
