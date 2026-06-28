@@ -267,7 +267,7 @@ func tugasPrioritasDescend(A *tabtugas, tglAktif int) {
 		indeks = pass
 		j = pass + 1
 		for j < idxTugas {
-			if A[j].prioritas > A[indeks].prioritas && A[i].tanggal == tglAktif {
+			if A[j].prioritas > A[indeks].prioritas && A[j].tanggal == tglAktif {
 				indeks = j
 			}
 			j++
