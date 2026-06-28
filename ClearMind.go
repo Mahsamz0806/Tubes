@@ -90,7 +90,8 @@ func produktifitas(A *tabtugas, tglAktif *int) {
 	fmt.Println("3. Tugas Prioritas")
 	fmt.Println("4. Cari Tugas")
 	fmt.Println("5. Ubah Tugas")
-	fmt.Println("6. Kembali")
+	fmt.Println("6. Hapus Tugas")
+	fmt.Println("7. Kembali")
 	fmt.Scan(&pilih)
 	switch pilih {
 	case 1:
@@ -113,6 +114,8 @@ func produktifitas(A *tabtugas, tglAktif *int) {
 	case 5:
 		ubahTugas(A, *tglAktif)
 	case 6:
+		hapusTugas (A, *tglAktif)
+	case 7 :
 		return
 	default:
 			fmt.Println("Pilihan tidak valid")
@@ -267,7 +270,7 @@ func tugasPrioritasAscend(A *tabtugas, tglAktif int) {
 	}
 
 }
-func ubahTugas(A *tabtugas, tglAktif int) {
+func ubahTugas(A *tabtugas, tglAktif int) {//untuk mengubah tugas
 	var nomor, i int
 	fmt.Println("\n==UBAH TUGAS==")
 	tampilkanTugas(A)
@@ -283,6 +286,32 @@ func ubahTugas(A *tabtugas, tglAktif int) {
 			fmt.Print("Masukan data baru (nama, prioritas, deadline): ")
 			fmt.Scan(&A[i].namaTugas, &A[i].prioritas, &A[i].deadline)
 			fmt.Println("Tugas diubah")
+		}
+	}
+}
+
+func hapusTugas(A *tabtugas, tglAktif  int){// untuk menghapus tugas
+	var nomor, i, indekstarget int
+	var namaTerhapus string
+	fmt.Println("\n==HAPUS TUGAS==")
+	tampilkanTugas(A, tglAktif)
+	if idx == 0{
+		fmt.Println("Tidak ada tugas yang bisa dihapus")
+	}else{
+		fmt.Print("Masukan nomor tugas yang ingin dihapus: ")
+		fmt.Scan(&nomor)
+		if nomor < 1 || nomor > idxTugas{
+			fmt.Println("Nomor tidak valid. Penghapusan dibatalkan.")
+		}else{
+			indeks target = nomor-1
+			namaTerhapus = A[indeksTarget].namaTugas
+			i = indeksTarget
+			for i < idxTugas-1{
+				A[i] = A[i+1]
+				i = i+1
+			}
+			idxTugas--
+			fmt.Printf("Tugas \"%s\" berhasil dihapus.\n", namaTerhapus )
 		}
 	}
 }
