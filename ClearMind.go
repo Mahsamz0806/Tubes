@@ -221,9 +221,8 @@ func cariBinary(A *tabtugas, tglAktif int) {
 	hasil = -1
 	for low <= high && hasil == -1 {
 		mid = (low + high) / 2
-		if A[mid].prioritas == target {
+		if A[mid].prioritas == target && A[mid].tanggal == tgl aktif {
 			hasil = mid
-			low = high + 1
 		} else if A[mid].prioritas < target {
 			low = mid + 1
 		} else {
