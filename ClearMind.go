@@ -476,7 +476,7 @@ func tambahJurnalOtomatis(B *tabmental, tglAktif int){//Digunakan jika stress me
 		B[idxJurnal].tanggal = tglAktif
 		fmt.Print("Skor Emosi Akibat Burn Out Hari Ini (1-10):")
 		fmt.Scan(&B[idxJurnal].skorEmosi)
-		fmt.Println("Tuliskan apa yang anda rasakan saat ini (gunakan "-" sebagai spasi):")
+		fmt.Println("Tuliskan apa yang anda rasakan saat ini (gunakan '_' sebagai spasi):")
 		fmt.Scan(&B[idxJurnal].catatanEmosi)
 		idxJurnal++
 		fmt.Println("Data kondisi darurat berhasil direkam. Beristirahatlah")
@@ -487,10 +487,11 @@ func tambahJurnalOtomatis(B *tabmental, tglAktif int){//Digunakan jika stress me
 }
 
 func tampilkanSemuaJurnal(B *tabmental) {//procedure untuk menampilkan semua jurnal
+	var i int
 	fmt.Println("\n== RIWAYAT JURNAL MENTAL ==")
 	if idxJurnal > 0 {
 		fmt.Printf("%-5s %-12s %-12s %-12s %-20s\n", "No", "Tanggal", "Skor Emosi", "Stress Meter", "Catatan")
-		i := 0
+		i = 0
 		for i < idxJurnal {
 			fmt.Printf("%-5d %-12d %-12d %-12d %-20s\n",
 				i+1, B[i].tanggal, B[i].skorEmosi, B[i].stressMeter, B[i].catatanEmosi)
@@ -549,7 +550,7 @@ func menuCariJurnal(B *tabmental) {//procedure untuk mencari jurnal berdasarkan 
 
 //Sorting Bagian Mental secara Selection dan Insertion tergantung pilihan
 func menuSortJurnal(B *tabmental){
-	var kembali, pass, j, i int
+	var kembali, pass, j, i, indeks int
 	var temp Mental
 	kembali = 0
 	for kembali == 0{
