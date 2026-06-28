@@ -41,6 +41,7 @@ func tanggalAktif(tanggal *int) {//Tanggal untuk kedua menu, pada Produktivitas 
 
 func menuUtama(A *tabtugas, B *tabmental, tglAktif *int){//Persimpangan antara dua menu
 	var keluar int
+	keluar = 0
 	for keluar == 0{
 		fmt.Printf("===== ClearMind =====\n")
 		fmt.Printf("[Tanggal Aktif Saat Ini: %d]\n", *tglAktif)//Untuk tanggal yang aktif pada kedua menu
@@ -85,6 +86,7 @@ func StressMaksimal(A *tabtugas, tglAktif int)bool {
 
 func produktifitas(A *tabtugas, B *tabmental, tglAktif *int) {
 	var pilih, kembali int
+	kembali = 0
 	for kembali == 0{
 		fmt.Println("===HALO SELAMAT DATANG DI PEMBANTU PRODUKTIFITAS===")
 		fmt.Println("APA YANG KAMI BISA BANTU HARI INI?")
@@ -226,6 +228,7 @@ func cariBinary(A *tabtugas, tglAktif int) {
 
 func menuPrioritas(A *tabtugas, B *tabmental, tglAktif *int) {
 	var pilih, kembali int
+	kembali = 0
 	for kembali == 0{
 		fmt.Println("==MENU PRIORITAS==")
 		fmt.Println("1.Ascending")
@@ -330,6 +333,7 @@ func hapusTugas(A *tabtugas, tglAktif  int){// untuk menghapus tugas
 
 func MenuKesehatanMental(A *tabtugas, B *tabmental, tglAktif *int){
 	var kembali int
+	kembali = 0
 	for kembali == 0{
 		fmt.Println("=== CEK KESEHATAN MENTAL ===\n")
 		fmt.Println("APA YANG BISA KAMI BANTU?")
@@ -477,6 +481,7 @@ func tampilkanSemuaJurnal(B *tabmental) {//procedure untuk menampilkan semua jur
 
 func menuCariJurnal(B *tabmental) {//procedure untuk mencari jurnal berdasarkan berbagai kategori
 	var target, kembali int
+	kembali = 0
 	for kembali == 0{
 		fmt.Println("\n== CARI JURNAL MENTAL ==")
 		fmt.Println("[1] Cari Berdasar Skor Emosi")
@@ -522,6 +527,7 @@ func menuCariJurnal(B *tabmental) {//procedure untuk mencari jurnal berdasarkan 
 //Sorting Bagian Mental secara Selection dan Insertion tergantung pilihan
 func menuSortJurnal(B *tabmental){
 	var kembali int
+	kembali = 0
 	for kembali == 0{
 		fmt.Println("\n== URUTKAN JURNAL MENTAL ==")
 		fmt.Println("[1] Urutkan Berdasar Skor Emosi Tertinggi")
