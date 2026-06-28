@@ -449,7 +449,7 @@ func tambahJurnalManual(B *tabmental, tglAktif int){
 
 func tambahJurnalOtomatis(B *tabmental, tglAktif int){//Digunakan jika stress meter sudah melebihi maksimal
 	var indeksTarget int
-	var jurnalDitemukan
+	var jurnalDitemukan bool
 	indeksTarget = idxJurnal
 	jurnalDitemukan = false
 	for j := 0; j < idxJurnal && !jurnalDitemukan{
@@ -462,7 +462,7 @@ func tambahJurnalOtomatis(B *tabmental, tglAktif int){//Digunakan jika stress me
 		B[indeksTarget].tanggal = tglAktif
 		fmt.Print("Skor Emosi Akibat Burnout Hari Ini (1-10): ")
 		fmt.Scan(&B[indeksTarget].skorEmosi)
-		fmt.Println("uliskan apa yang Anda rasakan saat ini (Gunakan _ sebagai spasi): ")
+		fmt.Println("Tuliskan apa yang Anda rasakan saat ini (Gunakan _ sebagai spasi): ")
 		fmt.Scan(&B[indeksTarget].catatanEmosi)
 	
 		if !jurnalDitemukan {
