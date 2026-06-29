@@ -242,7 +242,7 @@ func cariSequential(A *tabtugas, tglAktif int) {
 func cariBinary(A *tabtugas, tglAktif int) {
 	//{I.S : Array A terdefinisi. fungsi tugasPrioritasAscend dipanggil di awal untuk memastikan array tersebut terurut dan bisa dilakukan pencarian secara binary}
 	//{F.S : Meakukan pencarian biner berdasarkan target prioritas pada tglAktif. Jika ditemukan, data tugas akan dicetak ke layar; jika tidak, pesan "Tidak ditemukan" akan dicetak ke layar}
-	var target, low, high, mid, hasil int
+	var target, low, high, mid, hasil, i int
 	tugasPrioritasAscend(A, tglAktif)
 	fmt.Println("Prioritas: ")
 	fmt.Scan(&target)
@@ -262,7 +262,16 @@ func cariBinary(A *tabtugas, tglAktif int) {
 	if hasil == -1 {
 		fmt.Println("Tidak Ditemukan")
 	} else {
-		fmt.Printf("%s|%d|%d\n", A[hasil].namaTugas, A[hasil].prioritas, A[hasil].deadline)
+		i = hasil
+		for i > 0 && A[i-1].prioritas == target {
+			i--
+		}
+		for i < idxTugas && A[i].prioritas == target {
+			if A[i].tanggal == tglAktif {
+				fmt.Printf("%s|%d|%d\n", A[i].namaTugas, A[i].prioritas, A[i].deadline)
+			}
+			i = i + 1
+		}
 	}
 }
 
