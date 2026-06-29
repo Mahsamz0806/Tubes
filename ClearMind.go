@@ -145,6 +145,7 @@ func inputDataProduk(A *tabtugas, tglAktif int) {//Untuk menangani data tugas ba
 		fmt.Scan(&A[idxTugas].namaTugas, &A[idxTugas].prioritas, &A[idxTugas].deadline)
 		idxTugas++
 	}
+	fmt.Println("\n Data Sudah Berhasil Di Input")
 }
 
 func tampilkanTugas(A *tabtugas, tglAktif int) {//Menampilkan daftar tugas yang ada pada tanggal aktif
