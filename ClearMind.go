@@ -28,6 +28,8 @@ type tabtugas [NMAX]Tugas
 
 //=================================================================
 func main() {
+	//{I.S : Program baru dijalankan. Variable  Variable A dan B terelokasi di memori, indeks idxTugas dan idxJurnal bernilai 0.}
+	//{F.S : Program selesai dieksekusi setelah pengguna memilih menu keluar di case 0, menampilkan pesan ucapan terimakassih, dan mengembalikan kontrol ke sistem operasi.}
 	var A tabtugas
 	var B tabmental
 	var tglAktif int
@@ -36,12 +38,16 @@ func main() {
 }
 
 func tanggalAktif(tanggal *int) { //Tanggal untuk kedua menu, pada Produktivitas dan Mental
+	//{I.S : Pointer tanggal menunjuk ke alamat memori sebuah variable bertipe integer. Nilai yang ditunjuk bisa berupa nilai acak/lama atau 0.}
+	//{F.S : Variable yang ditunjuk oleh tanggal telah terisi dengan nilai baru berdasarkan input pengguna. Pesan terkonfirmasi tanggal aktif berhasil dicetak ke layar.}
 	fmt.Println("Masukkan Tanggal Sesi Ini (Format: DDMMYYYY, cth: 12062026): ")
 	fmt.Scan(tanggal)
 	fmt.Printf("Program beroperasi pada tanggal: %d\n", *tanggal)
 }
 
 func menuUtama(A *tabtugas, B *tabmental, tglAktif *int) { //Persimpangan antara dua menu
+	//{I.S : Array A, array B, dan tglAktif telah terdefinisi. Program siap memproses alur utama.}
+	//{F.S : Menu terus berjalan dalam perulangan hingga pengguna menginput angka 0 untuk keluar. Menghasilkan perubahan status pada tugas atau jurnal jika pengguna mengakses sub menu di dalamnya}
 	var keluar int
 	keluar = 0
 	for keluar == 0 {
@@ -70,6 +76,8 @@ func menuUtama(A *tabtugas, B *tabmental, tglAktif *int) { //Persimpangan antara
 }
 
 func StressMaksimal(A *tabtugas, tglAktif int) bool {
+	//{I.S : Array A berisi data tugas dan nilai integer tglAktif dikirim sebagai parameter.}
+	//{F.S : Mengembalikan nilai true jika totalbeban koin mental pada tglAktif menyebabkan nilai stressMeter mencapai atau melewati batas konstanta BatasStress(10). Mengembalikan false jika sebaliknya. Data pada array A tetap utuh}
 	var bebanTotal, i, sisaKoin, stressMeter, kelebihan int
 	bebanTotal = 0
 	for i = 0; i < idxTugas; i++ {
@@ -89,6 +97,8 @@ func StressMaksimal(A *tabtugas, tglAktif int) bool {
 }
 
 func produktifitas(A *tabtugas, B *tabmental, tglAktif *int) {
+	//{I.S : Array A, array B, dan tglAktif terdefinisi. Program siap menampilkan sub-menu produktifitas}
+	//{F.S : MPengguna keluar dari menu produktivitas dengan memilih opsi 7. kembali ke meni utama. Selama di dalam menu, isis array A dan B mungkin telah berubah akibat proses input, update, delete.}
 	var pilih, kembali int
 	kembali = 0
 	for kembali == 0 {
@@ -133,6 +143,8 @@ func produktifitas(A *tabtugas, B *tabmental, tglAktif *int) {
 }
 
 func inputDataProduk(A *tabtugas, tglAktif int) { //Untuk menangani data tugas baru ke array
+	//{I.S : Array A terdefinisi dengan jumlah elemen aktif sebanyak idxTugas.}
+	//{F.S : Sebanyak n data tugas baru berhasil disimpan ke dalam array A pada indeks idxTugas hingga sebelum batas maksimum. Nilai idxTugas bertambah sesuai jumlah data baru yang berhasil dimasukkan.}
 	var n, batas int
 	fmt.Println("==INPUT DATA PRODUKTIFITAS==")
 	fmt.Println("BERAPA BANYAK DATA YANG INGIN ANDA INPUT")
@@ -154,6 +166,8 @@ func inputDataProduk(A *tabtugas, tglAktif int) { //Untuk menangani data tugas b
 }
 
 func tampilkanTugas(A *tabtugas, tglAktif int) { //Menampilkan daftar tugas yang ada pada tanggal aktif
+	//{A.S : Array A terdefinisi, berisi data tugas dengan jumlah elemen aktif sebanyak idxTugas.}
+	//{F.S : Daftar tugas yang memiliki atribut.tanggal sama dengan tglAktif dicetak ke layar secara rapi dalam format yang bersih. Struktur array A dan nilai idxTugas tidak mengalami perubahan}
 	var i, no int
 	no = 1
 	fmt.Println("\n==DAFTAR TUGAS==")
@@ -177,7 +191,12 @@ func tampilkanTugas(A *tabtugas, tglAktif int) { //Menampilkan daftar tugas yang
 }
 
 func MenucariTugas(A *tabtugas, B *tabmental, tglAktif *int) { //Untuk mencari tugas-tugas yang sudah diinput
+	//{I.S : Array A, array B, dan nilai tglAktif terdefinisi. Menu pencarian siap dipilih oleh pengguna}
+	//{F.S : Menampilkan sub-menu pencarian tugas sampai pengguna memilih opsi 3. Proses pencarian sequential atau binary dipanggil dalam modul ini}
 	var pilih, kembali int
+	if idxTugas == 0 {
+		fmt.Println("Tidak ada data yang bisa diurutkan, harap input data terlebih dahulu")
+	}
 	for kembali == 0 {
 		fmt.Println("\n==Cari Tugas==")
 		fmt.Println("1. Berdasarkan Nama")
@@ -199,6 +218,8 @@ func MenucariTugas(A *tabtugas, B *tabmental, tglAktif *int) { //Untuk mencari t
 }
 
 func cariSequential(A *tabtugas, tglAktif int) {
+	//{I.S : Array A terdefinisi dengan elemen aktif sebnyak idxTugas. pengguna siap memasukan nama tugas yang dicari.}
+	//{F.S : Jika nama tugas ditemukan dan tanggalnya sesuai dengan tglAktif, data tugas tersebut dicetak ke layar. Jika tidak , maka ia akan menampilkan  pesan "Tugas tidak ditemukan!"}
 	var nama string
 	var found bool
 	var i int
@@ -219,6 +240,8 @@ func cariSequential(A *tabtugas, tglAktif int) {
 }
 
 func cariBinary(A *tabtugas, tglAktif int) {
+	//{I.S : Array A terdefinisi. fungsi tugasPrioritasAscend dipanggil di awal untuk memastikan array tersebut terurut dan bisa dilakukan pencarian secara binary}
+	//{F.S : Meakukan pencarian biner berdasarkan target prioritas pada tglAktif. Jika ditemukan, data tugas akan dicetak ke layar; jika tidak, pesan "Tidak ditemukan" akan dicetak ke layar}
 	var target, low, high, mid, hasil int
 	tugasPrioritasAscend(A, tglAktif)
 	fmt.Println("Prioritas: ")
@@ -244,8 +267,13 @@ func cariBinary(A *tabtugas, tglAktif int) {
 }
 
 func menuPrioritas(A *tabtugas, B *tabmental, tglAktif *int) {
+	//{I.S : Opsi pengurutan siap diakses oleh pengguna. Array A dan tglAktif terdefinisi}
+	//{F.S : Menampilkan pilihan pengurutan hingga pengguna memilih opsi 3. Array A berubah susunanya secara permanen setelah prosedur pengurutan (Ascending/Descending) dipanggil}
 	var pilih, kembali int
 	kembali = 0
+	if idxTugas == 0 {
+		fmt.Println("Tidak ada data yang bisa diurutkan, harap input data terlebih dahulu")
+	}
 	for kembali == 0 {
 		fmt.Println("==MENU PRIORITAS==")
 		fmt.Println("1.Ascending")
@@ -267,6 +295,8 @@ func menuPrioritas(A *tabtugas, B *tabmental, tglAktif *int) {
 }
 
 func tugasPrioritasDescend(A *tabtugas, tglAktif int) {
+	//{I.S : Array A terdefinisi dengan data sebanyak idxTugas.}
+	//{F.S : Elemen di dalam array A telah terurut secara menurun berdasarkan nilai .prioritas menggunakan algoritma Selection Sort, lalu memanggil tampilkanTugas.}
 	var pass, j, indeks int
 	var temp Tugas
 	pass = 0
@@ -288,6 +318,8 @@ func tugasPrioritasDescend(A *tabtugas, tglAktif int) {
 }
 
 func tugasPrioritasAscend(A *tabtugas, tglAktif int) {
+	//{I.S : Array A terdefinisi dengan jumlah data sebanyak idxTugas}
+	//{F.S : Elemen di dalam Array A telah terurut secara menaik berdasrkan nilai .prioritas menggunakan algoritma inserton sort, lalu memanggil tampilkanTugas}
 	var pass, i int
 	var temp Tugas
 	pass = 1
@@ -306,6 +338,8 @@ func tugasPrioritasAscend(A *tabtugas, tglAktif int) {
 	tampilkanTugas(A, tglAktif)
 }
 func ubahTugas(A *tabtugas, tglAktif int) { //untuk mengubah tugas
+	//{I.S : Array A berisi sejumlah data tugas, pengguna memilih nomor baris tugas pada tglAktif yang ingin diubah nilainya}
+	//{F.S : Atribut .namaTugas, .prioritas, .deadline dari tugas pada indeks terpilih berhasil diperbarui dengan data input yang baru}
 	var nomor, i, hitung, indeksAsli int
 	fmt.Println("\n==UBAH TUGAS==")
 	tampilkanTugas(A, tglAktif)
@@ -336,6 +370,8 @@ func ubahTugas(A *tabtugas, tglAktif int) { //untuk mengubah tugas
 }
 
 func hapusTugas(A *tabtugas, tglAktif int) { // untuk menghapus tugas
+	//{I.S : Array A emiliki data aktif sebanyak idxTugas. Pengguna menetukan nomor urut tugas pada tgl tglAktif yang akan dihapus}
+	//{F.S : Elemen pada indeks target dihapus dengan cara menggeser semua elemen setelahnya. Nilai global idxTugas berkurang 1}
 	var nomor, i, hitung, indeksTarget int
 	var namaTerhapus string
 	fmt.Println("\n==HAPUS TUGAS==")
@@ -370,6 +406,8 @@ func hapusTugas(A *tabtugas, tglAktif int) { // untuk menghapus tugas
 }
 
 func MenuKesehatanMental(A *tabtugas, B *tabmental, tglAktif *int) {
+	//{I.S : Array A, B dan rglAktif terdefinisi. Modul siap menampilkan opsi layanan kesehatan mental}
+	//{F.S : Menampilkan menu kesehatan mental berulangkali hingg pengguna memilih opsi 0 untuk kembali ke mnu utama}
 	var kembali int
 	kembali = 0
 	for kembali == 0 {
@@ -407,6 +445,8 @@ func MenuKesehatanMental(A *tabtugas, B *tabmental, tglAktif *int) {
 }
 
 func hitungLimitMental(A *tabtugas, B *tabmental, tglAktif int) {
+	//{I.S : Array tugas A dan array mental B terdefinisi, tglAktif terdefinisi. Atribut pada tanggal aktif digunakan untuk meghitung sisa koin mental dan indikator stress harian.}
+	//{F.S : Array B terisi atau terbaharui datanya khusus untuk tanggal aktif. Jika tanggal tersebut belum memiliki record di B, record baru ditambahkan dan idx jurnal bertambah 1. informasi kalkulasi tercetak di layar}
 	var bebanTotal, jumlahTugasYngAda, i, stressMeter, sisaKoin, kelebihan int
 	var jurnalDitemukan bool
 	fmt.Println("[ CEK KOIN MENTAL DAN STRESS METER ]")
@@ -461,6 +501,8 @@ func hitungLimitMental(A *tabtugas, B *tabmental, tglAktif int) {
 
 //Satu Tanggal hanya boleh satu jurnal
 func tambahJurnalManual(B *tabmental, tglAktif int) {
+	//{I.S : Array B terdefinisi dengan jumlah data sebanyak idxJurnal}
+	//{F.S : Jika jurnal belum ada pada tanggal aktif, record jurnal baru(skor emosi dan catatan emosi dari input pengguna) ditambahkan ke array B pada indeks idxJurnal. dan nilai idxJurnal bertambah 1. Jika sudah ada, proses penambahan dibatalkan dengan pesan peringatan}
 	var ada bool
 	var i int
 	fmt.Println("\n== TAMBAH JURNAL MENTAL ==")
@@ -489,6 +531,8 @@ func tambahJurnalManual(B *tabmental, tglAktif int) {
 }
 
 func tambahJurnalOtomatis(B *tabmental, tglAktif int) { //Digunakan jika stress meter sudah melebihi maksimal
+	//{I.S : Fungsi dipanggil otomatis dari menu produktivitas karena kondisi burnout (stress meter maksimal).Array B terdefinisi}
+	//{F.S : Data kondisi darurat (skor emosi akibat burnout beserta catatanya) berhasil disimpan ke dalam array B pada tglAktif. Jika data tanggal tersebut sudah ada, dilakukan overwrite(pembaruan data), jika belum ada, record baru dibuat dan idxJurnal bertambah 1}
 	var indeksTarget, j int
 	var jurnalDitemukan bool
 	indeksTarget = idxJurnal
@@ -523,6 +567,8 @@ func tambahJurnalOtomatis(B *tabmental, tglAktif int) { //Digunakan jika stress 
 }
 
 func tampilkanSemuaJurnal(B *tabmental) { //procedure untuk menampilkan semua jurnal
+	//{I.S : Array B terdefinisi dengan jumlah elemen aktif sebanyak idxJurnal}
+	//{F.S : Seluruh riwayat jurnal yang tersimpan di dalam array B dicetak secara berurutan ke layar dalam format tabel. Tidak ada perubahan data pada array B}
 	var i int
 	fmt.Println("\n== RIWAYAT JURNAL MENTAL ==")
 	if idxJurnal > 0 {
@@ -539,6 +585,8 @@ func tampilkanSemuaJurnal(B *tabmental) { //procedure untuk menampilkan semua ju
 }
 
 func menuCariJurnal(B *tabmental) { //procedure untuk mencari jurnal berdasarkan berbagai kategori
+	//{I.S : Array B terdefinisi dengan jumlah record sebanyak idxJurnal. Menu jurnal siap diakses}
+	//{F.S : Menampilkan pilihan pencarian(berdasarkan skor emosi atau tanggal rekursif) hingga pengguna memilih opsi 0}
 	var target, kembali, i, hasil int
 	var found bool
 	kembali = 0
@@ -586,6 +634,8 @@ func menuCariJurnal(B *tabmental) { //procedure untuk mencari jurnal berdasarkan
 
 //Sorting Bagian Mental secara Selection dan Insertion tergantung pilihan
 func menuSortJurnal(B *tabmental) {
+	//{I.S : Array B terdefinisi dengan jumlah  record sebanyak idxJurnal. Opsi pengurutan siap dipilih}
+	//{F.S : Menampilkan sub-menupengurutan jurnal sampai memilih opsi 0. Array B berubah susunanya secara permanen berdasarkan skor emosi(Selection sort) atau terurut berdasarkan tanggal(insertion sort)}
 	var kembali, pass, j, i, indeks int
 	var temp Mental
 	kembali = 0
@@ -633,6 +683,8 @@ func menuSortJurnal(B *tabmental) {
 }
 
 func hapusJurnal(B *tabmental, tglAktif int) { //procedure untuk menghapus jurnal
+	//{I.S : Array B berisi record jurnal sebanyak idxJurnal. Pengguna memilih nomor baris jurnal yang ingin dihapus dari riwayat}
+	//{F.S : Record jurnal terpilih dihapus dari array B dengan cara menggeser semua elemen di depanya ke arah kiri. Nili global idxJurnal berkurang 1}
 	var nomor, i, indeksTarget int
 	var tglTerhapus int
 	fmt.Println("\n== HAPUS JURNAL ==")
@@ -659,6 +711,8 @@ func hapusJurnal(B *tabmental, tglAktif int) { //procedure untuk menghapus jurna
 }
 
 func cariJurnalTanggalRekursif(B *tabmental, tglTarget int, idx int) int {
+	//{I.S : Array B terdefinisi, parameter tglTarget yang dicari dan indeks awal pencarian idx (dimulai dari 0) telah dikirim ke fungsi}
+	//{F.S : Mengembalikan niai indeks array tempat data jurnal dengan tanggal tglTarget ditemukan. Jika pencarian mencapai akhir array(idx>=idxJurnal)dan data tidak ditemukan, fungsi mengembalikan nilai -1, dan array B tidak berubah}
 	if idx >= idxJurnal {
 		return -1
 	}
