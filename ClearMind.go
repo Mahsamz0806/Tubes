@@ -335,7 +335,7 @@ func hapusTugas(A *tabtugas, tglAktif  int){// untuk menghapus tugas
 	if idxTugas==0{
 		fmt.Println("Tidak ada tugas yang bisa dihapus")
 	}else{
-		fmt.Print("Masukan nomor tugas yang ingin dihapus")
+		fmt.Print("Masukan nomor tugas yang ingin dihapus: ")
 		fmt.Scan(&nomor)
 		hitung = 0
 		indeksTarget = -1
