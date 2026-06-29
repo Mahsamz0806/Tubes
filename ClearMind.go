@@ -86,7 +86,7 @@ func StressMaksimal(A *tabtugas, tglAktif int) bool {
 		}
 	}
 	sisaKoin = BatasKoinMental - bebanTotal
-	if sisaKoin < 0 {
+	if sisaKoin <= 0 {
 		kelebihan = sisaKoin * -1
 		stressMeter = (kelebihan + 4) / 5
 		if stressMeter >= BatasStress {
@@ -476,7 +476,7 @@ func hitungLimitMental(A *tabtugas, B *tabmental, tglAktif int) {
 
 	sisaKoin = BatasKoinMental - bebanTotal
 	stressMeter = 0
-	if sisaKoin < 0 {
+	if sisaKoin <= 0 {
 		kelebihan = sisaKoin * -1
 		stressMeter = (kelebihan + 4) / 5
 		sisaKoin = 0
