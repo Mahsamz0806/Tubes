@@ -315,7 +315,8 @@ func tugasPrioritasDescend(A *tabtugas, tglAktif int) {
 		pass++
 	}
 	tampilkanTugas(A, tglAktif)
-	fmt.Print("Tugas sudah berhasil diurutkan secara Descending")
+	fmt.Println("Tugas sudah berhasil diurutkan secara Descending")
+	fmt.Println("")
 }
 
 func tugasPrioritasAscend(A *tabtugas, tglAktif int) {
@@ -338,6 +339,7 @@ func tugasPrioritasAscend(A *tabtugas, tglAktif int) {
 	}
 	tampilkanTugas(A, tglAktif)
 	fmt.Print("Tugas sudah berhasil diurutkan secara Ascending")
+	fmt.Println("")
 }
 func ubahTugas(A *tabtugas, tglAktif int) { //untuk mengubah tugas
 	//{I.S : Array A berisi sejumlah data tugas, pengguna memilih nomor baris tugas pada tglAktif yang ingin diubah nilainya}
